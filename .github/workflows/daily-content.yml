@@ -23,18 +23,18 @@ jobs:
 
       - name: Install dependencies
         run: pip install requests
-        
-        - name: Generate & publish content
+
+      - name: Generate and publish content
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           SHIVARAJCYBER_BOT: ${{ secrets.SHIVARAJCYBER_BOT }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python generate_content.py
 
-      - name: Commit & push
+      - name: Commit and push
         run: |
           git config user.name "AutoBot"
           git config user.email "bot@github.com"
           git add .
-          git diff --staged --quiet || git commit -m "Daily content - $(date '+%d %b %Y')"
+          git diff --staged --quiet || git commit -m "Daily content"
           git push
