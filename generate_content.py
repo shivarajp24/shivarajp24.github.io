@@ -11,49 +11,50 @@ today = datetime.now().strftime("%B %d, %Y")
 day_num = datetime.now().timetuple().tm_yday
 
 topics = [
-    "Phishing Attacks", "SQL Injection", "Password Security", "Two-Factor Authentication",
-    "Social Engineering", "Ransomware", "VPN Security", "Firewall Basics",
-    "Zero Day Exploits", "Man in the Middle Attack", "DDoS Attacks", "Malware Types",
-    "Dark Web Basics", "Encryption Explained", "XSS Attacks", "CSRF Attacks",
-    "Brute Force Attacks", "Keyloggers", "Spyware", "Trojan Horse",
-    "Network Sniffing", "WiFi Security", "Public WiFi Risks", "Cookie Hijacking",
-    "DNS Spoofing", "ARP Poisoning", "Port Scanning", "Vulnerability Assessment",
-    "Penetration Testing Basics", "Bug Bounty Hunting", "OWASP Top 10",
-    "Incident Response", "Digital Forensics", "Cyber Laws in India",
-    "Identity Theft", "Credit Card Fraud", "SIM Swapping", "Deepfake Threats",
-    "IoT Security", "Cloud Security Basics", "Blue Team vs Red Team",
-    "CTF Competitions", "Kali Linux Tools", "Metasploit Basics", "Burp Suite Intro",
-    "Nmap Tutorial", "Wireshark Basics", "John the Ripper", "Hashcat Tutorial",
-    "OSINT Techniques", "Steganography", "Cryptography Basics", "PKI & Certificates",
-    "HTTPS vs HTTP", "Secure Coding Practices", "DevSecOps", "Threat Intelligence",
-    "SOC Operations", "SIEM Tools", "Endpoint Security", "Mobile Security",
-    "Android Hacking Basics", "iOS Security", "Email Security"
+    "Phishing Attacks","SQL Injection","Password Security","Two-Factor Authentication",
+    "Social Engineering","Ransomware","VPN Security","Firewall Basics",
+    "Zero Day Exploits","Man in the Middle Attack","DDoS Attacks","Malware Types",
+    "Dark Web Basics","Encryption Explained","XSS Attacks","CSRF Attacks",
+    "Brute Force Attacks","Keyloggers","Spyware","Trojan Horse",
+    "Network Sniffing","WiFi Security","Public WiFi Risks","Cookie Hijacking",
+    "DNS Spoofing","ARP Poisoning","Port Scanning","Vulnerability Assessment",
+    "Penetration Testing Basics","Bug Bounty Hunting","OWASP Top 10",
+    "Incident Response","Digital Forensics","Cyber Laws in India",
+    "Identity Theft","Credit Card Fraud","SIM Swapping","Deepfake Threats",
+    "IoT Security","Cloud Security Basics","Blue Team vs Red Team",
+    "CTF Competitions","Kali Linux Tools","Metasploit Basics","Burp Suite Intro",
+    "Nmap Tutorial","Wireshark Basics","Hashcat Tutorial","OSINT Techniques",
+    "Cryptography Basics","HTTPS vs HTTP","Secure Coding","Threat Intelligence",
+    "SOC Operations","SIEM Tools","Endpoint Security","Mobile Security",
+    "Email Security","Steganography","DevSecOps","PKI and Certificates"
 ]
 
 topic = topics[day_num % len(topics)]
 
 def generate_content():
+    if not ANTHROPIC_API_KEY:
+        raise Exception("ANTHROPIC_API_KEY is missing!")
+
     headers = {
         "x-api-key": ANTHROPIC_API_KEY,
         "anthropic-version": "2023-06-01",
         "content-type": "application/json"
     }
-    prompt = f"""You are a cybersecurity educator. Create a professional daily cybersecurity awareness post about: {topic}
 
-Return ONLY a JSON object with these exact keys:
+    prompt = f"""Create a cybersecurity awareness post about: {topic}
+
+Return ONLY a valid JSON object, no markdown, no extra text:
 {{
   "topic": "{topic}",
-  "headline": "catchy headline max 10 words",
+  "headline": "short catchy headline under 10 words",
   "intro": "2 sentence introduction",
   "what_is_it": "2-3 sentences explaining what it is",
   "how_it_works": "3-4 sentences explaining how it works",
-  "real_world_example": "1 real world example in 2 sentences",
+  "real_world_example": "a real world example in 2 sentences",
   "protection_tips": ["tip 1", "tip 2", "tip 3", "tip 4", "tip 5"],
   "did_you_know": "1 surprising fact",
-  "threat_level": "LOW or MEDIUM or HIGH or CRITICAL"
-}}
-
-Return ONLY the JSON, no extra text."""
+  "threat_level": "HIGH"
+}}"""
 
     response = requests.post(
         "https://api.anthropic.com/v1/messages",
@@ -62,22 +63,39 @@ Return ONLY the JSON, no extra text."""
             "model": "claude-sonnet-4-6",
             "max_tokens": 1500,
             "messages": [{"role": "user", "content": prompt}]
-        }
+        },
+        timeout=30
     )
-    data = response.json()
-    return json.loads(data["content"][0]["text"])
+
+    print(f"API Status: {response.status_code}")
+    result = response.json()
+    print(f"API Response keys: {list(result.keys())}")
+
+    if "error" in result:
+        raise Exception(f"API Error: {result['error']}")
+
+    text = result["content"][0]["text"].strip()
+    
+    # Remove markdown if present
+    if text.startswith("```"):
+        text = text.split("```")[1]
+        if text.startswith("json"):
+            text = text[4:]
+    text = text.strip()
+    
+    return json.loads(text)
 
 def build_html(content):
     tips_html = "".join(f"<li>{tip}</li>\n" for tip in content["protection_tips"])
     threat_colors = {"LOW":"#00c032","MEDIUM":"#ffb300","HIGH":"#ff6b00","CRITICAL":"#ff3b30"}
-    tc = threat_colors.get(content["threat_level"], "#00ff41")
+    tc = threat_colors.get(content.get("threat_level","HIGH"), "#ff6b00")
 
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>{content['topic']} | Cyber Awareness — Shivaraj Patil</title>
+<title>{content['topic']} | Cyber Awareness</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
 :root{{--bg:#060a06;--bg2:#0c120c;--panel:#0f180f;--border:#1a2e1a;--green:#00ff41;--green-mute:#00601a;--cyan:#00e5ff;--text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;--font-mono:'Share Tech Mono',monospace;--font-body:'Inter',sans-serif;--font-head:'Orbitron',monospace}}
@@ -98,7 +116,7 @@ h1{{font-family:var(--font-head);font-size:clamp(1.5rem,5vw,2.8rem);color:var(--
 .topic-label{{font-family:var(--font-mono);font-size:0.8rem;color:var(--green);letter-spacing:0.1em;margin-bottom:1rem}}
 .intro{{font-size:1rem;color:var(--text-dim);max-width:600px;border-left:2px solid var(--green-mute);padding-left:1rem;margin-top:1rem}}
 .container{{max-width:800px;margin:0 auto;padding:3rem 2rem}}
-.card{{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:1.6rem;margin-bottom:1.4rem;position:relative;overflow:hidden}}
+.card{{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:1.6rem;margin-bottom:1.4rem;position:relative}}
 .card::before{{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--green)}}
 .card-title{{font-family:var(--font-head);font-size:0.75rem;color:var(--green);letter-spacing:0.15em;margin-bottom:0.8rem}}
 .card p{{color:var(--text-dim);font-size:0.92rem;line-height:1.8}}
@@ -108,10 +126,8 @@ h1{{font-family:var(--font-head);font-size:clamp(1.5rem,5vw,2.8rem);color:var(--
 .fact-card{{background:rgba(0,255,65,0.04);border:1px solid var(--green-mute);border-radius:4px;padding:1.4rem;margin-bottom:1.4rem}}
 .fact-card .card-title{{color:var(--cyan)}}
 .fact-card p{{color:var(--text);font-style:italic;font-size:0.92rem}}
-.back-btn{{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--green);border:1px solid var(--green-mute);padding:0.6rem 1.2rem;border-radius:4px;text-decoration:none;margin-top:1rem;transition:all 0.2s}}
-.back-btn:hover{{background:rgba(0,255,65,0.05);border-color:var(--green);color:var(--white)}}
+.back-btn{{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--green);border:1px solid var(--green-mute);padding:0.6rem 1.2rem;border-radius:4px;text-decoration:none;margin-top:1rem}}
 footer{{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted)}}
-@media(max-width:600px){{.container{{padding:2rem 1rem}}.hero{{padding:70px 1rem 2rem}}}}
 </style>
 </head>
 <body>
@@ -123,7 +139,7 @@ footer{{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2
   <div class="hero-grid"></div>
   <div class="hero-inner">
     <span class="badge date-badge">📅 {today}</span>
-    <span class="badge threat-badge">⚠️ {content['threat_level']}</span>
+    <span class="badge threat-badge">⚠️ {content.get('threat_level','HIGH')}</span>
     <div class="topic-label">// DAILY CYBER AWARENESS</div>
     <h1>{content['headline']}</h1>
     <p class="intro">{content['intro']}</p>
@@ -163,8 +179,7 @@ def update_index(content):
     try:
         with open("index.html", "r", encoding="utf-8") as f:
             html = f.read()
-        banner = f"""
-<!-- DAILY AWARENESS BANNER -->
+        banner = f"""<!-- DAILY AWARENESS BANNER -->
 <div style="position:fixed;bottom:0;left:0;right:0;z-index:999;background:#0c120c;border-top:1px solid #1a2e1a;padding:0.6rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem">
   <span style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#6a9b6a">📡 TODAY:</span>
   <a href="daily.html" style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#00ff41;text-decoration:none">{content['topic']} — {content['headline']} →</a>
@@ -173,14 +188,14 @@ def update_index(content):
         if "<!-- DAILY AWARENESS BANNER -->" in html:
             start = html.index("<!-- DAILY AWARENESS BANNER -->")
             end = html.index("</div>", start) + 6
-            html = html[:start] + banner.strip() + html[end:]
+            html = html[:start] + banner + html[end:]
         else:
             html = html.replace("</body>", banner + "\n</body>")
         with open("index.html", "w", encoding="utf-8") as f:
             f.write(html)
         print("✅ index.html updated")
     except Exception as e:
-        print(f"⚠️ index update skipped: {e}")
+        print(f"⚠️ index update error: {e}")
 
 def send_telegram(content):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
@@ -190,40 +205,37 @@ def send_telegram(content):
 📅 {today}
 
 🎯 *Topic:* {content['topic']}
-⚠️ *Threat Level:* {content['threat_level']}
+⚠️ *Threat Level:* {content.get('threat_level','HIGH')}
 
 📖 *{content['headline']}*
 
 {content['intro']}
 
-🌐 Read more: https://shivarajp24.github.io/daily.html
+🌐 https://shivarajp24.github.io/daily.html
 
-_By Shivaraj Patil | Cybersecurity Portfolio_"""
+_By Shivaraj Patil_"""
 
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     try:
-        response = requests.post(url, json={
+        r = requests.post(url, json={
             "chat_id": TELEGRAM_CHAT_ID,
             "text": message,
             "parse_mode": "Markdown"
-        })
-        if response.status_code == 200:
-            print("✅ Telegram message sent!")
-        else:
-            print(f"❌ Telegram error: {response.text}")
+        }, timeout=10)
+        print(f"✅ Telegram: {r.status_code}")
     except Exception as e:
         print(f"❌ Telegram error: {e}")
 
 def main():
-    print(f"🚀 Generating content for: {topic}")
+    print(f"🚀 Topic: {topic}")
     content = generate_content()
-    print(f"✅ Content: {content['headline']}")
+    print(f"✅ Generated: {content['headline']}")
     with open("daily.html", "w", encoding="utf-8") as f:
         f.write(build_html(content))
-    print("✅ daily.html created")
+    print("✅ daily.html saved")
     update_index(content)
     send_telegram(content)
-    print("🎉 Done!")
+    print("🎉 All done!")
 
 if __name__ == "__main__":
     main()
