@@ -3,7 +3,7 @@ import json
 import os
 from datetime import datetime
 
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 TELEGRAM_BOT_TOKEN = os.environ.get("SHIVARAJCYBER_BOT")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 
@@ -32,18 +32,14 @@ topics = [
 topic = topics[day_num % len(topics)]
 
 def generate_content():
-    if not ANTHROPIC_API_KEY:
-        raise Exception("ANTHROPIC_API_KEY is missing!")
+    if not GEMINI_API_KEY:
+        raise Exception("GEMINI_API_KEY is missing!")
 
-    headers = {
-        "x-api-key": ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01",
-        "content-type": "application/json"
-    }
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
 
     prompt = f"""Create a cybersecurity awareness post about: {topic}
 
-Return ONLY a valid JSON object, no markdown, no extra text:
+Return ONLY a valid JSON object, no markdown, no extra text, no code blocks:
 {{
   "topic": "{topic}",
   "headline": "short catchy headline under 10 words",
@@ -56,33 +52,26 @@ Return ONLY a valid JSON object, no markdown, no extra text:
   "threat_level": "HIGH"
 }}"""
 
-    response = requests.post(
-        "https://api.anthropic.com/v1/messages",
-        headers=headers,
-        json={
-            "model": "claude-sonnet-4-6",
-            "max_tokens": 1500,
-            "messages": [{"role": "user", "content": prompt}]
-        },
-        timeout=30
-    )
+    response = requests.post(url, json={
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"temperature": 0.7, "maxOutputTokens": 1500}
+    }, timeout=30)
 
-    print(f"API Status: {response.status_code}")
+    print(f"Gemini API Status: {response.status_code}")
     result = response.json()
-    print(f"API Response keys: {list(result.keys())}")
 
     if "error" in result:
-        raise Exception(f"API Error: {result['error']}")
+        raise Exception(f"Gemini Error: {result['error']}")
 
-    text = result["content"][0]["text"].strip()
-    
+    text = result["candidates"][0]["content"]["parts"][0]["text"].strip()
+
     # Remove markdown if present
-    if text.startswith("```"):
+    if "```" in text:
         text = text.split("```")[1]
         if text.startswith("json"):
             text = text[4:]
     text = text.strip()
-    
+
     return json.loads(text)
 
 def build_html(content):
