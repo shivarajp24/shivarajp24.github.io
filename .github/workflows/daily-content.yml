@@ -2,12 +2,13 @@ name: Daily Cybersecurity Content
 
 on:
   schedule:
-    - cron: '30 2 * * *'  # 8:00 AM IST (UTC+5:30)
-  workflow_dispatch:  # Manual trigger bhi kar sako
+    - cron: '30 2 * * *'
+  workflow_dispatch:
 
 jobs:
   generate-content:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       contents: write
 
@@ -16,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -26,14 +27,14 @@ jobs:
       - name: Generate & publish content
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          ZAPIER_WEBHOOK_URL: ${{ secrets.ZAPIER_WEBHOOK_URL }}
+          SHIVARAJCYBER_BOT: ${{ secrets.SHIVARAJCYBER_BOT }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python generate_content.py
-      
+
       - name: Commit & push
         run: |
           git config user.name "AutoBot"
-          git config user.email "bot@shivarajp24.github.io"
+          git config user.email "bot@github.com"
           git add .
-          git status
-          git diff --staged --quiet || git commit -m "Daily cybersecurity content - $(date '+%d %b %Y')"
+          git diff --staged --quiet || git commit -m "Daily content - $(date '+%d %b %Y')"
           git push
