@@ -26,7 +26,7 @@ jobs:
 
       - name: Generate and publish content
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           SHIVARAJCYBER_BOT: ${{ secrets.SHIVARAJCYBER_BOT }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python generate_content.py
