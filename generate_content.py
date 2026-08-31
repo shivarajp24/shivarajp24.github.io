@@ -31,11 +31,16 @@ topics = [
 
 topic = topics[day_num % len(topics)]
 
+GEMINI_MODELS = [
+    "gemini-2.5-flash",
+    "gemini-2.5-flash-preview-05-20",
+    "gemini-1.5-flash-latest",
+    "gemini-pro"
+]
+
 def generate_content():
     if not GEMINI_API_KEY:
         raise Exception("GEMINI_API_KEY is missing!")
-
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
 
     prompt = f"""Create a cybersecurity awareness post about: {topic}
 
@@ -52,31 +57,43 @@ Return ONLY a valid JSON object, no markdown, no code blocks, no extra text:
   "threat_level": "HIGH"
 }}"""
 
-    response = requests.post(url, json={
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {"temperature": 0.7, "maxOutputTokens": 1500}
-    }, timeout=30)
+    for model in GEMINI_MODELS:
+        try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}"
+            response = requests.post(url, json={
+                "contents": [{"parts": [{"text": prompt}]}],
+                "generationConfig": {"temperature": 0.7, "maxOutputTokens": 1500}
+            }, timeout=30)
 
-    print(f"Gemini API Status: {response.status_code}")
-    result = response.json()
+            print(f"Trying {model}: Status {response.status_code}")
+            result = response.json()
 
-    if "error" in result:
-        raise Exception(f"Gemini Error: {result['error']}")
+            if "error" in result:
+                print(f"Model {model} failed: {result['error'].get('message','')}")
+                continue
 
-    text = result["candidates"][0]["content"]["parts"][0]["text"].strip()
+            text = result["candidates"][0]["content"]["parts"][0]["text"].strip()
 
-    if "```" in text:
-        parts = text.split("```")
-        for part in parts:
-            if part.startswith("json"):
-                text = part[4:].strip()
-                break
-            elif "{" in part:
-                text = part.strip()
-                break
+            if "```" in text:
+                parts = text.split("```")
+                for part in parts:
+                    if part.startswith("json"):
+                        text = part[4:].strip()
+                        break
+                    elif "{" in part:
+                        text = part.strip()
+                        break
 
-    text = text.strip()
-    return json.loads(text)
+            text = text.strip()
+            data = json.loads(text)
+            print(f"✅ Success with model: {model}")
+            return data
+
+        except Exception as e:
+            print(f"Model {model} error: {e}")
+            continue
+
+    raise Exception("All Gemini models failed!")
 
 def build_html(content):
     tips_html = "".join(f"<li>{tip}</li>\n" for tip in content["protection_tips"])
@@ -100,7 +117,7 @@ nav{{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,10,6,0.9
 .nav-back{{font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);text-decoration:none}}
 .nav-back:hover{{color:var(--green)}}
 .hero{{min-height:55vh;display:flex;flex-direction:column;justify-content:center;padding:80px 2rem 3rem;position:relative;overflow:hidden}}
-.hero-grid{{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,65,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,65,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}}
+.hero-grid{{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,65,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,65,0.04)1px,transparent 1px);background-size:40px 40px;pointer-events:none}}
 .hero-inner{{max-width:800px;margin:0 auto;width:100%;position:relative}}
 .badge{{font-family:var(--font-mono);font-size:0.7rem;background:rgba(0,255,65,0.06);border:1px solid var(--green-mute);padding:0.3rem 0.8rem;border-radius:2px;display:inline-block;margin-bottom:1rem;letter-spacing:0.15em}}
 .date-badge{{color:var(--green)}}
