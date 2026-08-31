@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PKI and Certificates | Cyber Awareness</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#060a06;--bg2:#0c120c;--panel:#0f180f;--border:#1a2e1a;--green:#00ff41;--green-mute:#00601a;--cyan:#00e5ff;--text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;--font-mono:'Share Tech Mono',monospace;--font-body:'Inter',sans-serif;--font-head:'Orbitron',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.7}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,65,0.012) 2px,rgba(0,255,65,0.012) 4px);pointer-events:none;z-index:9999}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,10,6,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:var(--font-head);font-size:0.85rem;color:var(--green);letter-spacing:0.15em}
+.nav-back{font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);text-decoration:none}
+.nav-back:hover{color:var(--green)}
+.hero{min-height:55vh;display:flex;flex-direction:column;justify-content:center;padding:80px 2rem 3rem;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,65,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,65,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.hero-inner{max-width:800px;margin:0 auto;width:100%;position:relative}
+.badge{font-family:var(--font-mono);font-size:0.7rem;background:rgba(0,255,65,0.06);border:1px solid var(--green-mute);padding:0.3rem 0.8rem;border-radius:2px;display:inline-block;margin-bottom:1rem;letter-spacing:0.15em}
+.date-badge{color:var(--green)}
+.threat-badge{color:#ff6b00;background:rgba(0,0,0,0.3);border-color:#ff6b0044;margin-left:0.5rem}
+h1{font-family:var(--font-head);font-size:clamp(1.5rem,5vw,2.8rem);color:var(--white);margin-bottom:0.5rem;line-height:1.1}
+.topic-label{font-family:var(--font-mono);font-size:0.8rem;color:var(--green);letter-spacing:0.1em;margin-bottom:1rem}
+.intro{font-size:1rem;color:var(--text-dim);max-width:600px;border-left:2px solid var(--green-mute);padding-left:1rem;margin-top:1rem}
+.container{max-width:800px;margin:0 auto;padding:3rem 2rem}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:1.6rem;margin-bottom:1.4rem;position:relative}
+.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--green)}
+.card-title{font-family:var(--font-head);font-size:0.75rem;color:var(--green);letter-spacing:0.15em;margin-bottom:0.8rem}
+.card p{color:var(--text-dim);font-size:0.92rem;line-height:1.8}
+.tips-list{list-style:none;padding:0}
+.tips-list li{color:var(--text-dim);font-size:0.9rem;padding:0.5rem 0;border-bottom:1px solid var(--border);display:flex;gap:0.7rem}
+.tips-list li::before{content:'→';color:var(--green);font-family:var(--font-mono);flex-shrink:0}
+.fact-card{background:rgba(0,255,65,0.04);border:1px solid var(--green-mute);border-radius:4px;padding:1.4rem;margin-bottom:1.4rem}
+.fact-card .card-title{color:var(--cyan)}
+.fact-card p{color:var(--text);font-style:italic;font-size:0.92rem}
+.back-btn{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--green);border:1px solid var(--green-mute);padding:0.6rem 1.2rem;border-radius:4px;text-decoration:none;margin-top:1rem}
+footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted)}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">SP // SECURITY</div>
+  <a href="index.html" class="nav-back">← Portfolio</a>
+</nav>
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <span class="badge date-badge">📅 August 31, 2026</span>
+    <span class="badge threat-badge">⚠️ HIGH</span>
+    <div class="topic-label">// DAILY CYBER AWARENESS</div>
+    <h1>PKI: The Digital Passport for Internet Trust</h1>
+    <p class="intro">Public Key Infrastructure (PKI) is the framework that secures your online communications with digital certificates. Understanding how PKI works helps you recognize trusted connections and avoid phishing attacks.</p>
+  </div>
+</div>
+<div class="container">
+  <div class="card">
+    <div class="card-title">// WHAT IS IT?</div>
+    <p>PKI is a system of processes and technologies that creates, manages, and validates digital certificates to verify identities online. These certificates act like digital passports, binding a public encryption key to a specific person, device, or organization.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">// HOW IT WORKS</div>
+    <p>When you visit a secure website, your browser checks its digital certificate against a trusted Certificate Authority (CA) to verify authenticity. If the certificate is valid, the website and your device exchange public keys to establish an encrypted connection. This encryption ensures that sensitive data remains private and tamper-proof during transmission.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">// REAL WORLD EXAMPLE</div>
+    <p>When you see the padlock icon next to 'https://' in your browser, PKI has verified that you are connected to the legitimate site and not a fake copy. This verification prevents attackers from intercepting your login credentials during the session.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">// PROTECTION TIPS</div>
+    <ul class="tips-list">
+<li>Always look for the padlock icon and 'https://' before entering passwords or financial details.</li>
+<li>Click the padlock to verify the certificate details and ensure the domain matches the website.</li>
+<li>Never ignore browser warnings about invalid, expired, or untrusted certificates.</li>
+<li>Keep your browser and operating system updated to support the latest certificate validation standards.</li>
+<li>Be cautious of self-signed certificates, as they lack verification from a trusted authority.</li>
+    </ul>
+  </div>
+  <div class="fact-card">
+    <div class="card-title">// DID YOU KNOW?</div>
+    <p>The 2014 Heartbleed vulnerability exposed private keys for thousands of websites, forcing a massive global reset of digital certificates to protect user data.</p>
+  </div>
+  <a href="index.html" class="back-btn">← Back to Portfolio</a>
+</div>
+<footer>
+  <span style="color:var(--green)">root@shivaraj:~$</span> Daily Cyber Awareness · shivarajp24.github.io
+</footer>
+</body>
+</html>
