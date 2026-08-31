@@ -57,7 +57,7 @@ Return ONLY a valid JSON object, no markdown, no code blocks, no extra text:
             "Content-Type": "application/json"
         },
         json={
-            "model": "llama-3.1-8b-instant",
+            "model": "mixtral-8x7b-32768",
             "messages": [{"role": "user", "content": prompt}],
             "temperature": 0.7,
             "max_tokens": 1500
