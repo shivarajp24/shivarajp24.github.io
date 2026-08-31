@@ -32,10 +32,10 @@ topics = [
 topic = topics[day_num % len(topics)]
 
 GEMINI_MODELS = [
-    "gemini-2.5-flash",
-    "gemini-2.5-flash-preview-05-20",
-    "gemini-1.5-flash-latest",
-    "gemini-pro"
+    "gemini-3.6-flash",
+    "gemini-3.5-flash",
+    "gemini-3.0-flash",
+]
 ]
 
 def generate_content():
