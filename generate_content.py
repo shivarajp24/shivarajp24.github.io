@@ -3,7 +3,7 @@ import json
 import os
 from datetime import datetime
 
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 TELEGRAM_BOT_TOKEN = os.environ.get("SHIVARAJCYBER_BOT")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 
@@ -31,16 +31,9 @@ topics = [
 
 topic = topics[day_num % len(topics)]
 
-GEMINI_MODELS = [
-    "gemini-3.6-flash",
-    "gemini-3.5-flash",
-    "gemini-3.0-flash",
-]
-]
-
 def generate_content():
-    if not GEMINI_API_KEY:
-        raise Exception("GEMINI_API_KEY is missing!")
+    if not GROQ_API_KEY:
+        raise Exception("GROQ_API_KEY is missing!")
 
     prompt = f"""Create a cybersecurity awareness post about: {topic}
 
@@ -57,43 +50,41 @@ Return ONLY a valid JSON object, no markdown, no code blocks, no extra text:
   "threat_level": "HIGH"
 }}"""
 
-    for model in GEMINI_MODELS:
-        try:
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}"
-            response = requests.post(url, json={
-                "contents": [{"parts": [{"text": prompt}]}],
-                "generationConfig": {"temperature": 0.7, "maxOutputTokens": 1500}
-            }, timeout=30)
+    response = requests.post(
+        "https://api.groq.com/openai/v1/chat/completions",
+        headers={
+            "Authorization": f"Bearer {GROQ_API_KEY}",
+            "Content-Type": "application/json"
+        },
+        json={
+            "model": "llama3-8b-8192",
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.7,
+            "max_tokens": 1500
+        },
+        timeout=30
+    )
 
-            print(f"Trying {model}: Status {response.status_code}")
-            result = response.json()
+    print(f"Groq API Status: {response.status_code}")
+    result = response.json()
 
-            if "error" in result:
-                print(f"Model {model} failed: {result['error'].get('message','')}")
-                continue
+    if "error" in result:
+        raise Exception(f"Groq Error: {result['error']}")
 
-            text = result["candidates"][0]["content"]["parts"][0]["text"].strip()
+    text = result["choices"][0]["message"]["content"].strip()
 
-            if "```" in text:
-                parts = text.split("```")
-                for part in parts:
-                    if part.startswith("json"):
-                        text = part[4:].strip()
-                        break
-                    elif "{" in part:
-                        text = part.strip()
-                        break
+    if "```" in text:
+        parts = text.split("```")
+        for part in parts:
+            if part.startswith("json"):
+                text = part[4:].strip()
+                break
+            elif "{" in part:
+                text = part.strip()
+                break
 
-            text = text.strip()
-            data = json.loads(text)
-            print(f"✅ Success with model: {model}")
-            return data
-
-        except Exception as e:
-            print(f"Model {model} error: {e}")
-            continue
-
-    raise Exception("All Gemini models failed!")
+    text = text.strip()
+    return json.loads(text)
 
 def build_html(content):
     tips_html = "".join(f"<li>{tip}</li>\n" for tip in content["protection_tips"])
@@ -117,7 +108,7 @@ nav{{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,10,6,0.9
 .nav-back{{font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);text-decoration:none}}
 .nav-back:hover{{color:var(--green)}}
 .hero{{min-height:55vh;display:flex;flex-direction:column;justify-content:center;padding:80px 2rem 3rem;position:relative;overflow:hidden}}
-.hero-grid{{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,65,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,65,0.04)1px,transparent 1px);background-size:40px 40px;pointer-events:none}}
+.hero-grid{{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,65,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,65,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}}
 .hero-inner{{max-width:800px;margin:0 auto;width:100%;position:relative}}
 .badge{{font-family:var(--font-mono);font-size:0.7rem;background:rgba(0,255,65,0.06);border:1px solid var(--green-mute);padding:0.3rem 0.8rem;border-radius:2px;display:inline-block;margin-bottom:1rem;letter-spacing:0.15em}}
 .date-badge{{color:var(--green)}}
