@@ -35,11 +35,11 @@ def generate_content():
     if not GEMINI_API_KEY:
         raise Exception("GEMINI_API_KEY is missing!")
 
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
 
     prompt = f"""Create a cybersecurity awareness post about: {topic}
 
-Return ONLY a valid JSON object, no markdown, no extra text, no code blocks:
+Return ONLY a valid JSON object, no markdown, no code blocks, no extra text:
 {{
   "topic": "{topic}",
   "headline": "short catchy headline under 10 words",
@@ -65,13 +65,17 @@ Return ONLY a valid JSON object, no markdown, no extra text, no code blocks:
 
     text = result["candidates"][0]["content"]["parts"][0]["text"].strip()
 
-    # Remove markdown if present
     if "```" in text:
-        text = text.split("```")[1]
-        if text.startswith("json"):
-            text = text[4:]
-    text = text.strip()
+        parts = text.split("```")
+        for part in parts:
+            if part.startswith("json"):
+                text = part[4:].strip()
+                break
+            elif "{" in part:
+                text = part.strip()
+                break
 
+    text = text.strip()
     return json.loads(text)
 
 def build_html(content):
