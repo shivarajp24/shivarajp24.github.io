@@ -6,20 +6,19 @@
 <title>Phishing Attacks | Cyber Awareness</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
-:root{--bg:#060a06;--bg2:#0c120c;--panel:#0f180f;--border:#1a2e1a;--green:#00ff41;--green-mute:#00601a;--cyan:#00e5ff;--text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;--font-mono:'Share Tech Mono',monospace;--font-body:'Inter',sans-serif;--font-head:'Orbitron',monospace}
+:root{--bg:#060a06;--panel:#0f180f;--border:#1a2e1a;--green:#00ff41;--green-mute:#00601a;--cyan:#00e5ff;--text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;--font-mono:'Share Tech Mono',monospace;--font-body:'Inter',sans-serif;--font-head:'Orbitron',monospace}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.7}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,65,0.012) 2px,rgba(0,255,65,0.012) 4px);pointer-events:none;z-index:9999}
 nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,10,6,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
 .nav-logo{font-family:var(--font-head);font-size:0.85rem;color:var(--green);letter-spacing:0.15em}
-.nav-back{font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);text-decoration:none}
-.nav-back:hover{color:var(--green)}
+.nav-links{display:flex;gap:1.5rem}
+.nav-links a{font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);text-decoration:none}
+.nav-links a:hover{color:var(--green)}
 .hero{min-height:55vh;display:flex;flex-direction:column;justify-content:center;padding:80px 2rem 3rem;position:relative;overflow:hidden}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,65,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,65,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
 .hero-inner{max-width:800px;margin:0 auto;width:100%;position:relative}
 .badge{font-family:var(--font-mono);font-size:0.7rem;background:rgba(0,255,65,0.06);border:1px solid var(--green-mute);padding:0.3rem 0.8rem;border-radius:2px;display:inline-block;margin-bottom:1rem;letter-spacing:0.15em}
-.date-badge{color:var(--green)}
-.threat-badge{color:#ff6b00;background:rgba(0,0,0,0.3);border-color:#ff6b0044;margin-left:0.5rem}
 h1{font-family:var(--font-head);font-size:clamp(1.5rem,5vw,2.8rem);color:var(--white);margin-bottom:0.5rem;line-height:1.1}
 .topic-label{font-family:var(--font-mono);font-size:0.8rem;color:var(--green);letter-spacing:0.1em;margin-bottom:1rem}
 .intro{font-size:1rem;color:var(--text-dim);max-width:600px;border-left:2px solid var(--green-mute);padding-left:1rem;margin-top:1rem}
@@ -41,49 +40,36 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2r
 <body>
 <nav>
   <div class="nav-logo">SP // SECURITY</div>
-  <a href="index.html" class="nav-back">← Portfolio</a>
+  <div class="nav-links">
+    <a href="index.html">Portfolio</a>
+    <a href="news.html">News</a>
+    <a href="ctf.html">CTF</a>
+    <a href="daily.html" style="color:var(--green)">Daily</a>
+  </div>
 </nav>
 <div class="hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <span class="badge date-badge">📅 September 01, 2026</span>
-    <span class="badge threat-badge">⚠️ HIGH</span>
+    <span class="badge" style="color:var(--green)">📅 September 01, 2026</span>
+    <span class="badge" style="color:#ff6b00;background:rgba(0,0,0,0.3);border-color:#ff6b0044;margin-left:0.5rem">⚠️ HIGH</span>
     <div class="topic-label">// DAILY CYBER AWARENESS</div>
-    <h1>Think Before You Click: Avoid Phishing Scams</h1>
-    <p class="intro">Phishing is one of the most common cyber threats targeting individuals and organizations worldwide. Stay vigilant to protect your sensitive information from malicious actors.</p>
+    <h1>Beware: Phishing Attacks Target Everyone</h1>
+    <p class="intro">Phishing attacks trick users into revealing sensitive data. They often masquerade as legitimate emails or messages.</p>
   </div>
 </div>
 <div class="container">
-  <div class="card">
-    <div class="card-title">// WHAT IS IT?</div>
-    <p>Phishing is a fraudulent attempt to obtain sensitive information by disguising communication as trustworthy sources. Attackers use deceptive emails, texts, or websites to trick victims into revealing passwords, credit card numbers, or personal data.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">// HOW IT WORKS</div>
-    <p>Attackers send mass messages containing malicious links or attachments designed to look legitimate. When a victim clicks the link, they are directed to a fake website that mimics a real service to steal credentials. Alternatively, downloading an attachment may install malware on the device to compromise data.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">// REAL WORLD EXAMPLE</div>
-    <p>In 2020, attackers phished Twitter employees via a support tool to gain access to high-profile accounts, including those of Barack Obama and Elon Musk. They posted cryptocurrency scams that generated nearly $120,000 in donations before the accounts were secured.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">// PROTECTION TIPS</div>
-    <ul class="tips-list">
-<li>Verify the sender's email address and look for subtle misspellings.</li>
-<li>Hover over links to check the actual URL before clicking.</li>
-<li>Enable multi-factor authentication on all your accounts.</li>
-<li>Never download unexpected attachments from unknown sources.</li>
-<li>Report suspicious messages to your IT security team immediately.</li>
-    </ul>
-  </div>
-  <div class="fact-card">
-    <div class="card-title">// DID YOU KNOW?</div>
-    <p>Over 90% of all cyberattacks start with a phishing email.</p>
-  </div>
+  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>Phishing is a social engineering technique that deceives individuals into providing confidential information. Attackers use fake communications to appear trustworthy.</p></div>
+  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>First, attackers craft convincing emails or texts that mimic reputable organizations. Next, they embed malicious links or attachments that harvest credentials or install malware. Finally, the stolen data is used for identity theft or unauthorized access.</p></div>
+  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2023, a major bank fell victim to a phishing campaign that compromised 12,000 customer accounts. The attackers used a spoofed login page to capture usernames and passwords.</p></div>
+  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Verify sender email addresses</li>
+<li>Hover over links before clicking</li>
+<li>Use multi-factor authentication</li>
+<li>Keep software updated</li>
+<li>Report suspicious messages</li>
+</ul></div>
+  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>Phishing emails can be generated automatically in less than a minute using AI.</p></div>
   <a href="index.html" class="back-btn">← Back to Portfolio</a>
 </div>
-<footer>
-  <span style="color:var(--green)">root@shivaraj:~$</span> Daily Cyber Awareness · shivarajp24.github.io
-</footer>
+<footer><span style="color:var(--green)">root@shivaraj:~$</span> Daily Cyber Awareness · shivarajp24.github.io</footer>
 </body>
 </html>

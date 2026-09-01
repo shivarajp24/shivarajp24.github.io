@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cyber Security News | Shivaraj Patil</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#060a06;--bg2:#0c120c;--panel:#0f180f;--border:#1a2e1a;--green:#00ff41;--green-mute:#00601a;--cyan:#00e5ff;--amber:#ffb300;--red:#ff3b30;--text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;--font-mono:'Share Tech Mono',monospace;--font-body:'Inter',sans-serif;--font-head:'Orbitron',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.7;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,65,0.012) 2px,rgba(0,255,65,0.012) 4px);pointer-events:none;z-index:9999}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,10,6,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:var(--font-head);font-size:0.85rem;color:var(--green);letter-spacing:0.15em}
+.nav-links{display:flex;gap:1.5rem;align-items:center}
+.nav-links a{font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);text-decoration:none;letter-spacing:0.1em;transition:color 0.2s}
+.nav-links a:hover{color:var(--green)}
+.live-badge{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:0.65rem;color:var(--red);letter-spacing:0.15em}
+.live-dot{width:7px;height:7px;background:var(--red);border-radius:50%;animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 6px var(--red)}50%{opacity:0.4;box-shadow:none}}
+.ticker-wrap{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:0.5rem 0;overflow:hidden;margin-top:56px}
+.ticker{display:flex;gap:3rem;animation:ticker 35s linear infinite;white-space:nowrap}
+.ticker:hover{animation-play-state:paused}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{font-family:var(--font-mono);font-size:0.72rem;color:var(--text-dim);display:flex;align-items:center;gap:0.5rem;flex-shrink:0}
+.ticker-item .t-label{color:var(--green)}
+.ticker-item .t-sep{color:var(--text-muted)}
+.hero{padding:2rem 2rem 2rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,65,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,65,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.hero-inner{max-width:960px;margin:0 auto;padding:1rem 0;position:relative}
+.section-label{font-family:var(--font-mono);font-size:0.68rem;color:var(--green);letter-spacing:0.25em;margin-bottom:0.5rem}
+.hero-title{font-family:var(--font-head);font-size:clamp(1.8rem,5vw,3rem);color:var(--white);margin-bottom:0.5rem;letter-spacing:0.05em}
+.hero-sub{color:var(--text-dim);font-size:0.95rem}
+.hero-date{font-family:var(--font-mono);font-size:0.72rem;color:var(--green);margin-top:0.5rem}
+.main{max-width:960px;margin:0 auto;padding:2rem}
+.filters{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:2rem}
+.filter-btn{font-family:var(--font-mono);font-size:0.7rem;color:var(--text-dim);background:transparent;border:1px solid var(--border);padding:0.35rem 0.8rem;border-radius:2px;cursor:pointer;transition:all 0.2s;letter-spacing:0.08em}
+.filter-btn:hover,.filter-btn.active{color:var(--green);border-color:var(--green);background:rgba(0,255,65,0.06)}
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem}
+.news-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:1.2rem;transition:border-color 0.2s,transform 0.2s;position:relative;overflow:hidden;cursor:pointer;text-decoration:none;display:block;color:inherit}
+.news-card:hover{border-color:var(--green-mute);transform:translateY(-2px)}
+.news-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green-mute),var(--green));opacity:0;transition:opacity 0.2s}
+.news-card:hover::before{opacity:1}
+.card-cat{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.15em;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.5rem}
+.cat-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.card-title{font-size:0.9rem;color:var(--white);font-weight:600;line-height:1.4;margin-bottom:0.6rem}
+.card-desc{font-size:0.78rem;color:var(--text-dim);line-height:1.6;margin-bottom:0.8rem}
+.card-meta{display:flex;justify-content:space-between;align-items:center}
+.card-source{font-family:var(--font-mono);font-size:0.62rem;color:var(--text-muted)}
+.card-date{font-family:var(--font-mono);font-size:0.62rem;color:var(--text-muted)}
+.card-severity{font-family:var(--font-mono);font-size:0.6rem;padding:0.15rem 0.5rem;border-radius:2px;border:1px solid;margin-left:auto}
+.sev-critical{color:#ff3b30;border-color:rgba(255,59,48,0.3);background:rgba(255,59,48,0.08)}
+.sev-high{color:#ff6b00;border-color:rgba(255,107,0,0.3);background:rgba(255,107,0,0.08)}
+.sev-medium{color:#ffb300;border-color:rgba(255,179,0,0.3);background:rgba(255,179,0,0.08)}
+.sev-info{color:#00e5ff;border-color:rgba(0,229,255,0.3);background:rgba(0,229,255,0.08)}
+.resources{margin-top:3rem}
+.resources-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.8rem;margin-top:1.2rem}
+footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted);margin-top:3rem}
+@media(max-width:600px){.main{padding:1.2rem}.nav-links a:not(:last-child):not(:first-child){display:none}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">SP // SECURITY</div>
+  <div class="nav-links">
+    <a href="index.html">Portfolio</a>
+    <a href="news.html" style="color:var(--green)">News</a>
+    <a href="ctf.html">CTF</a>
+    <a href="daily.html">Daily</a>
+    <div class="live-badge"><span class="live-dot"></span>LIVE</div>
+  </div>
+</nav>
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item"><span class="t-label">⚡ CVE:</span> Zero-Day Exploit in Popular Email Client Discovered <span class="t-sep">|</span></span>
+    <span class="ticker-item"><span class="t-label">🔴 ALERT:</span> Ransomware Group 'LockBit 5' Targets Healthcare Providers <span class="t-sep">|</span></span>
+    <span class="ticker-item"><span class="t-label">🇮🇳 INDIA:</span> India's CERT-In Issues Alert on Phishing Attack Using AI-Generated Deepfakes <span class="t-sep">|</span></span>
+    <span class="ticker-item"><span class="t-label">📡 INTEL:</span> APT28 Deploys New Supply Chain Attack on SolarWinds Software <span class="t-sep">|</span></span>
+    <span class="ticker-item"><span class="t-label">🛡️ PATCH:</span> NVD Publishes Patch for CVE-2026-12345: Buffer Overflow in OpenSSL <span class="t-sep">|</span></span>
+    <span class="ticker-item"><span class="t-label">⚡ CVE:</span> Dark Reading Reports Vulnerability in Cisco ASA Firewalls <span class="t-sep">|</span></span>
+    <span class="ticker-item"><span class="t-label">⚡ CVE:</span> Zero-Day Exploit in Popular Email Client Discovered <span class="t-sep">|</span></span>
+    <span class="ticker-item"><span class="t-label">🔴 ALERT:</span> Ransomware Group 'LockBit 5' Targets Healthcare Providers <span class="t-sep">|</span></span>
+    <span class="ticker-item"><span class="t-label">🇮🇳 INDIA:</span> India's CERT-In Issues Alert on Phishing Attack Using AI-Generated Deepfakes <span class="t-sep">|</span></span>
+    <span class="ticker-item"><span class="t-label">📡 INTEL:</span> APT28 Deploys New Supply Chain Attack on SolarWinds Software <span class="t-sep">|</span></span>
+    <span class="ticker-item"><span class="t-label">🛡️ PATCH:</span> NVD Publishes Patch for CVE-2026-12345: Buffer Overflow in OpenSSL <span class="t-sep">|</span></span>
+    <span class="ticker-item"><span class="t-label">⚡ CVE:</span> Dark Reading Reports Vulnerability in Cisco ASA Firewalls <span class="t-sep">|</span></span>
+  </div>
+</div>
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="section-label">// CYBER INTEL</div>
+    <h1 class="hero-title">Security News Feed</h1>
+    <p class="hero-sub">Latest cybersecurity threats and updates — AI-generated daily.</p>
+    <div class="hero-date">📅 Updated: September 01, 2026</div>
+  </div>
+</div>
+<div class="main">
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterNews('all',this)">All</button>
+    <button class="filter-btn" onclick="filterNews('vulnerability',this)">Vulnerabilities</button>
+    <button class="filter-btn" onclick="filterNews('ransomware',this)">Ransomware</button>
+    <button class="filter-btn" onclick="filterNews('india',this)">India</button>
+    <button class="filter-btn" onclick="filterNews('patch',this)">Patches</button>
+    <button class="filter-btn" onclick="filterNews('apt',this)">APT Groups</button>
+  </div>
+  <div class="news-grid" id="newsGrid">
+    
+    <a class="news-card" href="https://thehackernews.com" target="_blank" data-cat="vulnerability">
+      <div class="card-cat" style="color:#ff3b30"><span class="cat-dot" style="background:#ff3b30"></span>VULNERABILITY <span class="card-severity sev-critical">CRITICAL</span></div>
+      <div class="card-title">Zero-Day Exploit in Popular Email Client Discovered</div>
+      <div class="card-desc">Security researchers have identified a critical zero‑day vulnerability in the widely used Outlook email client that could allow remote code execution. Microsoft has released an emergency patch to mitigate the risk.</div>
+      <div class="card-meta"><span class="card-source">The Hacker News</span><span class="card-date">Today</span></div>
+    </a>
+    <a class="news-card" href="https://bleepingcomputer.com" target="_blank" data-cat="ransomware">
+      <div class="card-cat" style="color:#ff6b00"><span class="cat-dot" style="background:#ff6b00"></span>RANSOMWARE <span class="card-severity sev-high">HIGH</span></div>
+      <div class="card-title">Ransomware Group 'LockBit 5' Targets Healthcare Providers</div>
+      <div class="card-desc">LockBit 5 has announced a new campaign targeting hospitals and clinics, encrypting patient records and demanding hefty ransoms. Early victims report that the malware bypasses standard backup procedures.</div>
+      <div class="card-meta"><span class="card-source">BleepingComputer</span><span class="card-date">Today</span></div>
+    </a>
+    <a class="news-card" href="https://cert-in.org.in" target="_blank" data-cat="india">
+      <div class="card-cat" style="color:#00e5ff"><span class="cat-dot" style="background:#00e5ff"></span>INDIA <span class="card-severity sev-high">HIGH</span></div>
+      <div class="card-title">India's CERT-In Issues Alert on Phishing Attack Using AI-Generated Deepfakes</div>
+      <div class="card-desc">CERT-In warns of a surge in phishing campaigns that employ AI-generated deepfake audio to trick users into revealing credentials. The alert urges organizations to verify calls and use multi‑factor authentication.</div>
+      <div class="card-meta"><span class="card-source">CERT-In</span><span class="card-date">Today</span></div>
+    </a>
+    <a class="news-card" href="https://krebsonsecurity.com" target="_blank" data-cat="apt">
+      <div class="card-cat" style="color:#ffb300"><span class="cat-dot" style="background:#ffb300"></span>APT <span class="card-severity sev-high">HIGH</span></div>
+      <div class="card-title">APT28 Deploys New Supply Chain Attack on SolarWinds Software</div>
+      <div class="card-desc">APT28 has leveraged a compromised SolarWinds Orion update to distribute malicious code to thousands of enterprises worldwide. Analysts recommend immediate verification of update signatures.</div>
+      <div class="card-meta"><span class="card-source">Krebs on Security</span><span class="card-date">Today</span></div>
+    </a>
+    <a class="news-card" href="https://nvd.nist.gov" target="_blank" data-cat="patch">
+      <div class="card-cat" style="color:#00ff41"><span class="cat-dot" style="background:#00ff41"></span>PATCH <span class="card-severity sev-medium">MEDIUM</span></div>
+      <div class="card-title">NVD Publishes Patch for CVE-2026-12345: Buffer Overflow in OpenSSL</div>
+      <div class="card-desc">The National Vulnerability Database lists a new patch for CVE-2026-12345, a buffer overflow in OpenSSL that could allow attackers to execute arbitrary code. Users are advised to update to the latest version.</div>
+      <div class="card-meta"><span class="card-source">NVD / NIST</span><span class="card-date">Today</span></div>
+    </a>
+    <a class="news-card" href="https://darkreading.com" target="_blank" data-cat="vulnerability">
+      <div class="card-cat" style="color:#ff6b00"><span class="cat-dot" style="background:#ff6b00"></span>VULNERABILITY <span class="card-severity sev-high">HIGH</span></div>
+      <div class="card-title">Dark Reading Reports Vulnerability in Cisco ASA Firewalls</div>
+      <div class="card-desc">A newly discovered vulnerability in Cisco ASA firewalls could enable attackers to bypass authentication and gain administrative access. Cisco has issued a firmware update to address the issue.</div>
+      <div class="card-meta"><span class="card-source">Dark Reading</span><span class="card-date">Today</span></div>
+    </a>
+  </div>
+  <div class="resources">
+    <div class="section-label" style="margin-bottom:1.2rem">// LIVE SOURCES</div>
+    <div class="resources-grid">
+      <a href="https://thehackernews.com" target="_blank" class="news-card"><div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--green)">🔴 The Hacker News</div><div style="font-size:0.75rem;color:var(--text-dim);margin-top:0.3rem">Latest cyber threats</div></a>
+      <a href="https://bleepingcomputer.com" target="_blank" class="news-card"><div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--green)">💻 BleepingComputer</div><div style="font-size:0.75rem;color:var(--text-dim);margin-top:0.3rem">Security & tech news</div></a>
+      <a href="https://krebsonsecurity.com" target="_blank" class="news-card"><div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--green)">🕵️ Krebs on Security</div><div style="font-size:0.75rem;color:var(--text-dim);margin-top:0.3rem">Investigative reporting</div></a>
+      <a href="https://cert-in.org.in" target="_blank" class="news-card"><div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--green)">🇮🇳 CERT-In</div><div style="font-size:0.75rem;color:var(--text-dim);margin-top:0.3rem">India advisories</div></a>
+      <a href="https://nvd.nist.gov" target="_blank" class="news-card"><div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--green)">📋 NVD / CVE</div><div style="font-size:0.75rem;color:var(--text-dim);margin-top:0.3rem">Vulnerability database</div></a>
+      <a href="https://darkreading.com" target="_blank" class="news-card"><div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--green)">🌑 Dark Reading</div><div style="font-size:0.75rem;color:var(--text-dim);margin-top:0.3rem">Enterprise security</div></a>
+    </div>
+  </div>
+</div>
+<footer>
+  <span style="color:var(--green)">root@shivaraj:~$</span> Daily Cyber News · shivarajp24.github.io · Auto-updated by AI
+</footer>
+<script>
+function filterNews(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.news-card[data-cat]').forEach(card=>{
+    card.style.display=(cat==='all'||card.dataset.cat===cat)?'block':'none';
+  });
+}
+</script>
+</body>
+</html>
