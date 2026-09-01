@@ -1,6 +1,7 @@
 import requests
 import json
 import os
+import re
 from datetime import datetime
 
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
@@ -39,137 +40,86 @@ def groq_call(prompt):
             "Content-Type": "application/json"
         },
         json={
-            "model": "qwen/qwen3.6-27b",
-            "messages": [{"role": "user", "content": prompt}],
-            "temperature": 0.7,
+            "model": "llama3-70b-8192",
+            "messages": [
+                {"role": "system", "content": "You are a JSON generator. Always respond with valid JSON only. No explanations, no markdown, no extra text."},
+                {"role": "user", "content": prompt}
+            ],
+            "temperature": 0.3,
             "max_tokens": 2000
         },
         timeout=30
     )
+    print(f"Groq Status: {response.status_code}")
     result = response.json()
     if "error" in result:
         raise Exception(f"Groq Error: {result['error']}")
     text = result["choices"][0]["message"]["content"].strip()
-
-    # Remove <think> tags if present
-    import re
     text = re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL).strip()
-
-    # Extract JSON from markdown
     if "```" in text:
         parts = text.split("```")
         for part in parts:
-            if part.startswith("json"):
-                text = part[4:].strip()
+            p = part.strip()
+            if p.startswith("json"):
+                text = p[4:].strip()
                 break
-            elif part.strip().startswith("{") or part.strip().startswith("["):
-                text = part.strip()
+            elif p.startswith("{") or p.startswith("["):
+                text = p
                 break
-
-    # Find JSON start
-    if text and text[0] not in ['{', '[']:
-        start = -1
-        for i, c in enumerate(text):
-            if c in ['{', '[']:
-                start = i
-                break
-        if start >= 0:
-            text = text[start:]
-
+    for i, c in enumerate(text):
+        if c in ['{', '[']:
+            text = text[i:]
+            break
     return text.strip()
 
 def generate_daily_content():
-    prompt = f"""Create a cybersecurity awareness post about: {topic}
-Return ONLY valid JSON, no markdown, no extra text:
+    prompt = f"""Generate cybersecurity awareness content about: {topic}
+
+Return this exact JSON structure:
 {{
   "topic": "{topic}",
-  "headline": "short catchy headline under 10 words",
-  "intro": "2 sentence introduction",
-  "what_is_it": "2-3 sentences explaining what it is",
-  "how_it_works": "3-4 sentences explaining how it works",
-  "real_world_example": "a real world example in 2 sentences",
-  "protection_tips": ["tip 1", "tip 2", "tip 3", "tip 4", "tip 5"],
-  "did_you_know": "1 surprising fact",
+  "headline": "Short headline max 8 words",
+  "intro": "Two sentence introduction here.",
+  "what_is_it": "Two sentences explaining what it is.",
+  "how_it_works": "Three sentences explaining how it works.",
+  "real_world_example": "Two sentences real world example.",
+  "protection_tips": ["Tip one", "Tip two", "Tip three", "Tip four", "Tip five"],
+  "did_you_know": "One surprising fact.",
   "threat_level": "HIGH"
 }}"""
     return json.loads(groq_call(prompt))
 
 def generate_news():
-    prompt = f"""Generate 6 realistic cybersecurity news headlines for {today}.
-Mix of: vulnerabilities, ransomware, India cyber news, patches, APT groups.
-Return ONLY valid JSON array, no markdown:
+    prompt = """Generate 6 cybersecurity news items for today.
+Return this exact JSON array:
 [
-  {{
-    "title": "news headline",
-    "desc": "2 sentence description",
-    "category": "vulnerability",
-    "severity": "CRITICAL",
-    "source": "The Hacker News",
-    "cat_color": "#ff3b30"
-  }},
-  {{
-    "title": "news headline",
-    "desc": "2 sentence description", 
-    "category": "ransomware",
-    "severity": "HIGH",
-    "source": "BleepingComputer",
-    "cat_color": "#ff6b00"
-  }},
-  {{
-    "title": "news headline",
-    "desc": "2 sentence description",
-    "category": "india",
-    "severity": "HIGH", 
-    "source": "CERT-In",
-    "cat_color": "#00e5ff"
-  }},
-  {{
-    "title": "news headline",
-    "desc": "2 sentence description",
-    "category": "apt",
-    "severity": "HIGH",
-    "source": "Krebs on Security",
-    "cat_color": "#ffb300"
-  }},
-  {{
-    "title": "news headline",
-    "desc": "2 sentence description",
-    "category": "patch",
-    "severity": "MEDIUM",
-    "source": "NVD / NIST",
-    "cat_color": "#00ff41"
-  }},
-  {{
-    "title": "news headline",
-    "desc": "2 sentence description",
-    "category": "vulnerability",
-    "severity": "HIGH",
-    "source": "Dark Reading",
-    "cat_color": "#ff6b00"
-  }}
+  {"title": "News headline one", "desc": "Two sentence description.", "category": "vulnerability", "severity": "CRITICAL", "source": "The Hacker News", "cat_color": "#ff3b30"},
+  {"title": "News headline two", "desc": "Two sentence description.", "category": "ransomware", "severity": "HIGH", "source": "BleepingComputer", "cat_color": "#ff6b00"},
+  {"title": "News headline three", "desc": "Two sentence description.", "category": "india", "severity": "HIGH", "source": "CERT-In", "cat_color": "#00e5ff"},
+  {"title": "News headline four", "desc": "Two sentence description.", "category": "apt", "severity": "HIGH", "source": "Krebs on Security", "cat_color": "#ffb300"},
+  {"title": "News headline five", "desc": "Two sentence description.", "category": "patch", "severity": "MEDIUM", "source": "NVD / NIST", "cat_color": "#00ff41"},
+  {"title": "News headline six", "desc": "Two sentence description.", "category": "vulnerability", "severity": "HIGH", "source": "Dark Reading", "cat_color": "#ff6b00"}
 ]"""
     return json.loads(groq_call(prompt))
 
 def generate_ticker(news_list):
-    items = []
     labels = {"vulnerability":"⚡ CVE","ransomware":"🔴 ALERT","india":"🇮🇳 INDIA","apt":"📡 INTEL","patch":"🛡️ PATCH"}
+    items = []
     for n in news_list:
         label = labels.get(n["category"], "⚡ NEWS")
         items.append(f'<span class="ticker-item"><span class="t-label">{label}:</span> {n["title"]} <span class="t-sep">|</span></span>')
-    ticker_html = "\n    ".join(items * 2)
-    return ticker_html
+    return "\n    ".join(items * 2)
 
 def build_news_html(news_list):
     cards_html = ""
     sev_classes = {"CRITICAL":"sev-critical","HIGH":"sev-high","MEDIUM":"sev-medium","INFO":"sev-info"}
     source_links = {
-        "The Hacker News": "https://thehackernews.com",
-        "BleepingComputer": "https://bleepingcomputer.com",
-        "CERT-In": "https://cert-in.org.in",
-        "Krebs on Security": "https://krebsonsecurity.com",
-        "NVD / NIST": "https://nvd.nist.gov",
-        "Dark Reading": "https://darkreading.com",
-        "Security Week": "https://securityweek.com"
+        "The Hacker News":"https://thehackernews.com",
+        "BleepingComputer":"https://bleepingcomputer.com",
+        "CERT-In":"https://cert-in.org.in",
+        "Krebs on Security":"https://krebsonsecurity.com",
+        "NVD / NIST":"https://nvd.nist.gov",
+        "Dark Reading":"https://darkreading.com"
     }
     for n in news_list:
         sev_class = sev_classes.get(n["severity"], "sev-info")
@@ -266,7 +216,7 @@ footer{{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2
   <div class="hero-inner">
     <div class="section-label">// CYBER INTEL</div>
     <h1 class="hero-title">Security News Feed</h1>
-    <p class="hero-sub">Latest cybersecurity threats, vulnerabilities, and updates — AI-generated daily.</p>
+    <p class="hero-sub">Latest cybersecurity threats and updates — AI-generated daily.</p>
     <div class="hero-date">📅 Updated: {today}</div>
   </div>
 </div>
@@ -384,7 +334,7 @@ footer{{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2
 </body>
 </html>"""
 
-def update_index(content, news_list):
+def update_index(content):
     try:
         with open("index.html", "r", encoding="utf-8") as f:
             html = f.read()
@@ -413,18 +363,16 @@ def send_telegram(content, news_list):
     top_news = news_list[0] if news_list else {"title":"Check the site!","severity":"HIGH"}
     message = f"""🔐 *Daily Cyber Update — {today}*
 
-📖 *Awareness Topic:* {content['topic']}
+📖 *Topic:* {content['topic']}
 *{content['headline']}*
 {content['intro']}
 
 📰 *Top News:* {top_news['title']}
-⚠️ Severity: {top_news.get('severity','HIGH')}
 
-🌐 Daily: https://shivarajp24.github.io/daily.html
-📡 News: https://shivarajp24.github.io/news.html
+🌐 https://shivarajp24.github.io/daily.html
+📡 https://shivarajp24.github.io/news.html
 
-_By Shivaraj Patil | Cybersecurity Portfolio_"""
-
+_By Shivaraj Patil_"""
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     try:
         r = requests.post(url, json={
@@ -440,13 +388,13 @@ def main():
     if not GROQ_API_KEY:
         raise Exception("GROQ_API_KEY is missing!")
 
-    print(f"🚀 Generating daily content: {topic}")
+    print(f"🚀 Topic: {topic}")
     daily_content = generate_daily_content()
     print(f"✅ Daily: {daily_content['headline']}")
 
     print("📰 Generating news...")
     news_list = generate_news()
-    print(f"✅ News: {len(news_list)} articles generated")
+    print(f"✅ News: {len(news_list)} articles")
 
     with open("daily.html", "w", encoding="utf-8") as f:
         f.write(build_daily_html(daily_content))
@@ -456,7 +404,7 @@ def main():
         f.write(build_news_html(news_list))
     print("✅ news.html saved")
 
-    update_index(daily_content, news_list)
+    update_index(daily_content)
     send_telegram(daily_content, news_list)
     print("🎉 All done!")
 
