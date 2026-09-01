@@ -50,15 +50,32 @@ def groq_call(prompt):
     if "error" in result:
         raise Exception(f"Groq Error: {result['error']}")
     text = result["choices"][0]["message"]["content"].strip()
+
+    # Remove <think> tags if present
+    import re
+    text = re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL).strip()
+
+    # Extract JSON from markdown
     if "```" in text:
         parts = text.split("```")
         for part in parts:
             if part.startswith("json"):
                 text = part[4:].strip()
                 break
-            elif "{" in part or "[" in part:
+            elif part.strip().startswith("{") or part.strip().startswith("["):
                 text = part.strip()
                 break
+
+    # Find JSON start
+    if text and text[0] not in ['{', '[']:
+        start = -1
+        for i, c in enumerate(text):
+            if c in ['{', '[']:
+                start = i
+                break
+        if start >= 0:
+            text = text[start:]
+
     return text.strip()
 
 def generate_daily_content():
