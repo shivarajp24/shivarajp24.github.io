@@ -40,7 +40,7 @@ def groq_call(prompt):
             "Content-Type": "application/json"
         },
         json={
-            "model": "llama3-70b-8192",
+            "model": "openai/gpt-oss-20b",
             "messages": [
                 {"role": "system", "content": "You are a JSON generator. Always respond with valid JSON only. No explanations, no markdown, no extra text."},
                 {"role": "user", "content": prompt}
