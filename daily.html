@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Phishing Attacks | Cyber Awareness</title>
+<title>SQL Injection | Cyber Awareness</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#060a06;--panel:#0f180f;--border:#1a2e1a;--green:#00ff41;--green-mute:#00601a;--cyan:#00e5ff;--text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;--font-mono:'Share Tech Mono',monospace;--font-body:'Inter',sans-serif;--font-head:'Orbitron',monospace}
@@ -50,24 +50,24 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2r
 <div class="hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <span class="badge" style="color:var(--green)">📅 September 01, 2026</span>
+    <span class="badge" style="color:var(--green)">📅 September 02, 2026</span>
     <span class="badge" style="color:#ff6b00;background:rgba(0,0,0,0.3);border-color:#ff6b0044;margin-left:0.5rem">⚠️ HIGH</span>
     <div class="topic-label">// DAILY CYBER AWARENESS</div>
-    <h1>Beware: Phishing Attacks Target Everyone</h1>
-    <p class="intro">Phishing attacks trick users into revealing sensitive data. They often masquerade as legitimate emails or messages.</p>
+    <h1>Guard Against SQL Injection Attacks</h1>
+    <p class="intro">SQL injection is a common web vulnerability that allows attackers to manipulate database queries. It can lead to data theft, corruption, or unauthorized access.</p>
   </div>
 </div>
 <div class="container">
-  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>Phishing is a social engineering technique that deceives individuals into providing confidential information. Attackers use fake communications to appear trustworthy.</p></div>
-  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>First, attackers craft convincing emails or texts that mimic reputable organizations. Next, they embed malicious links or attachments that harvest credentials or install malware. Finally, the stolen data is used for identity theft or unauthorized access.</p></div>
-  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2023, a major bank fell victim to a phishing campaign that compromised 12,000 customer accounts. The attackers used a spoofed login page to capture usernames and passwords.</p></div>
-  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Verify sender email addresses</li>
-<li>Hover over links before clicking</li>
-<li>Use multi-factor authentication</li>
-<li>Keep software updated</li>
-<li>Report suspicious messages</li>
+  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>SQL injection occurs when untrusted input is concatenated into SQL statements. Attackers inject malicious code to alter the intended query.</p></div>
+  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>An attacker inputs crafted SQL into a form field that the application uses directly in a query. The database interprets the input as part of the command, executing unintended operations. This can expose sensitive data or modify records.</p></div>
+  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2018, a major retailer suffered a breach when attackers used SQL injection to extract customer credit card details. The vulnerability was in an outdated search feature that failed to sanitize input.</p></div>
+  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Use prepared statements with parameterized queries</li>
+<li>Validate and sanitize all user input</li>
+<li>Employ least privilege for database accounts</li>
+<li>Enable web application firewalls</li>
+<li>Regularly update and patch software</li>
 </ul></div>
-  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>Phishing emails can be generated automatically in less than a minute using AI.</p></div>
+  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>A single SQL injection flaw can allow an attacker to read the entire database in seconds.</p></div>
   <a href="index.html" class="back-btn">← Back to Portfolio</a>
 </div>
 <footer><span style="color:var(--green)">root@shivaraj:~$</span> Daily Cyber Awareness · shivarajp24.github.io</footer>
