@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Zero Day Exploits | Cyber Awareness</title>
+<title>Man in the Middle Attack | Cyber Awareness</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#060a06;--panel:#0f180f;--border:#1a2e1a;--green:#00ff41;--green-mute:#00601a;--cyan:#00e5ff;--text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;--font-mono:'Share Tech Mono',monospace;--font-body:'Inter',sans-serif;--font-head:'Orbitron',monospace}
@@ -50,24 +50,24 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2r
 <div class="hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <span class="badge" style="color:var(--green)">📅 September 09, 2026</span>
+    <span class="badge" style="color:var(--green)">📅 September 10, 2026</span>
     <span class="badge" style="color:#ff6b00;background:rgba(0,0,0,0.3);border-color:#ff6b0044;margin-left:0.5rem">⚠️ HIGH</span>
     <div class="topic-label">// DAILY CYBER AWARENESS</div>
-    <h1>Unseen Vulnerabilities Strike Fast</h1>
-    <p class="intro">Zero-day exploits take advantage of software flaws that are unknown to the vendor. Attackers can use them to gain unauthorized access before a patch is released.</p>
+    <h1>Silent Interceptor: The Man-in-the-Middle</h1>
+    <p class="intro">A Man-in-the-Middle attack hijacks communication between two parties. The attacker can eavesdrop, alter, or inject data without detection.</p>
   </div>
 </div>
 <div class="container">
-  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>A zero-day vulnerability is a software flaw that developers and security teams have not yet discovered or patched. Because no fix exists, it can be exploited immediately by attackers.</p></div>
-  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>First, a threat actor identifies a previously unknown bug in a widely used application. Next, they develop or acquire a malicious payload that triggers the flaw. Finally, they deliver the payload to the target, often via phishing or drive-by downloads, to execute code with elevated privileges.</p></div>
-  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2017, the EternalBlue exploit targeted a Windows SMB vulnerability, enabling the WannaCry ransomware to spread globally. The flaw was discovered by the NSA before being leaked to the public.</p></div>
-  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Keep software up to date and apply patches promptly.</li>
-<li>Use application whitelisting to block unauthorized executables.</li>
-<li>Deploy intrusion detection systems to spot anomalous behavior.</li>
-<li>Educate users about phishing and suspicious attachments.</li>
-<li>Implement least privilege principles to limit damage if exploited.</li>
+  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>It occurs when an attacker secretly relays and possibly alters messages between a sender and receiver. The victim believes they are communicating directly, while the attacker is in the middle.</p></div>
+  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>First, the attacker intercepts the initial connection request, often by spoofing IP addresses or using ARP poisoning. Then, the attacker establishes two separate connections, one with each party, acting as a proxy. Finally, the attacker can read, modify, or drop messages before forwarding them.</p></div>
+  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2011, a major banking service was compromised when attackers used a MITM attack to siphon customer credentials. The breach exposed millions of accounts and led to significant financial losses.</p></div>
+  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Use HTTPS with valid certificates</li>
+<li>Verify SSL/TLS certificates</li>
+<li>Avoid public Wi-Fi for sensitive transactions</li>
+<li>Enable two-factor authentication</li>
+<li>Keep software and firmware up to date</li>
 </ul></div>
-  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>The first known zero-day exploit was discovered in 1988, targeting the Apple Lisa computer.</p></div>
+  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>Over 70% of MITM attacks exploit unencrypted Wi-Fi networks, making public hotspots a prime target.</p></div>
   <a href="index.html" class="back-btn">← Back to Portfolio</a>
 </div>
 <footer><span style="color:var(--green)">root@shivaraj:~$</span> Daily Cyber Awareness · shivarajp24.github.io</footer>
