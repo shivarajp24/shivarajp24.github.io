@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>XSS Attacks | Cyber Awareness</title>
+<title>CSRF Attacks | Cyber Awareness</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#060a06;--panel:#0f180f;--border:#1a2e1a;--green:#00ff41;--green-mute:#00601a;--cyan:#00e5ff;--text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;--font-mono:'Share Tech Mono',monospace;--font-body:'Inter',sans-serif;--font-head:'Orbitron',monospace}
@@ -50,24 +50,24 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2r
 <div class="hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <span class="badge" style="color:var(--green)">📅 September 15, 2026</span>
+    <span class="badge" style="color:var(--green)">📅 September 16, 2026</span>
     <span class="badge" style="color:#ff6b00;background:rgba(0,0,0,0.3);border-color:#ff6b0044;margin-left:0.5rem">⚠️ HIGH</span>
     <div class="topic-label">// DAILY CYBER AWARENESS</div>
-    <h1>Prevent Cross-Site Scripting Today</h1>
-    <p class="intro">Cross-Site Scripting (XSS) allows attackers to inject malicious scripts into trusted websites. This can steal user data and compromise accounts.</p>
+    <h1>Prevent Cross-Site Request Forgery</h1>
+    <p class="intro">Cross-Site Request Forgery (CSRF) tricks users into performing unwanted actions. It exploits the trust a site has in a user's browser.</p>
   </div>
 </div>
 <div class="container">
-  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>XSS is a vulnerability where user input is not properly sanitized. Attackers embed scripts that run in victims' browsers.</p></div>
-  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>When a malicious script is injected into a page, it executes in the context of the site. The script can read cookies, session tokens, or modify page content. Attackers then use this access to hijack sessions or deface sites.</p></div>
-  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2019, a popular forum was defaced by an XSS attack that injected a script to redirect users to phishing sites. The incident exposed thousands of user credentials.</p></div>
-  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Validate and sanitize all user input</li>
-<li>Use Content Security Policy headers</li>
-<li>Encode output in HTML context</li>
-<li>Employ HTTPOnly and Secure flags on cookies</li>
-<li>Regularly scan and test web applications</li>
+  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>CSRF is a type of attack that forces an authenticated user to submit a request they did not intend. It relies on the fact that browsers automatically include credentials like cookies with each request.</p></div>
+  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>An attacker lures a victim to click a malicious link or visit a compromised page. The link contains a request to a target site where the victim is logged in. Because the browser sends the victim's cookies, the target site processes the request as legitimate.</p></div>
+  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2010, the Facebook "Like" attack allowed attackers to like pages on behalf of users. The exploit used CSRF to send unauthorized POST requests.</p></div>
+  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Use anti-CSRF tokens</li>
+<li>Set SameSite cookie attribute</li>
+<li>Validate Referer header</li>
+<li>Implement strict CORS policies</li>
+<li>Require re-authentication for sensitive actions</li>
 </ul></div>
-  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>A single XSS vulnerability can compromise up to 90% of a website's users if the site is widely visited.</p></div>
+  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>Many modern browsers now automatically set SameSite=Lax for cookies, reducing CSRF risk.</p></div>
   <a href="index.html" class="back-btn">← Back to Portfolio</a>
 </div>
 <footer><span style="color:var(--green)">root@shivaraj:~$</span> Daily Cyber Awareness · shivarajp24.github.io</footer>
