@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Cookie Hijacking | Cyber Awareness</title>
+<title>DNS Spoofing | Cyber Awareness</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#060a06;--panel:#0f180f;--border:#1a2e1a;--green:#00ff41;--green-mute:#00601a;--cyan:#00e5ff;--text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;--font-mono:'Share Tech Mono',monospace;--font-body:'Inter',sans-serif;--font-head:'Orbitron',monospace}
@@ -50,24 +50,24 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2r
 <div class="hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <span class="badge" style="color:var(--green)">📅 September 24, 2026</span>
+    <span class="badge" style="color:var(--green)">📅 September 25, 2026</span>
     <span class="badge" style="color:#ff6b00;background:rgba(0,0,0,0.3);border-color:#ff6b0044;margin-left:0.5rem">⚠️ HIGH</span>
     <div class="topic-label">// DAILY CYBER AWARENESS</div>
-    <h1>Steal Sessions with Cookie Hijacking</h1>
-    <p class="intro">Cookie hijacking steals session cookies to impersonate users. It exploits vulnerabilities in web applications to gain unauthorized access.</p>
+    <h1>DNS Spoofing: A Silent Attack</h1>
+    <p class="intro">DNS spoofing tricks users into visiting malicious sites. It hijacks domain resolution to redirect traffic.</p>
   </div>
 </div>
 <div class="container">
-  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>Cookie hijacking is a technique where attackers capture a user's session cookie to take over their session. The stolen cookie allows the attacker to act as the legitimate user without needing credentials.</p></div>
-  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>Attackers first intercept traffic or inject malicious scripts to read cookies. They then copy the cookie value and use it in subsequent requests to the target site. This bypasses authentication and grants the attacker full access to the victim's account.</p></div>
-  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2018, a major e-commerce site suffered a cookie hijacking attack that exposed millions of user sessions. The attackers used a cross-site scripting vulnerability to steal session tokens.</p></div>
-  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Use HTTPS everywhere to encrypt traffic.</li>
-<li>Set the HttpOnly and Secure flags on cookies.</li>
-<li>Implement SameSite attribute to restrict cross-site requests.</li>
-<li>Regularly rotate session tokens and enforce short expiration times.</li>
-<li>Monitor for unusual login patterns and implement multi-factor authentication.</li>
+  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>DNS spoofing is an attack where attackers manipulate DNS responses. It causes users to receive false IP addresses for legitimate domains.</p></div>
+  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>Attackers intercept DNS queries and send forged responses. They may use ARP spoofing or compromised DNS servers. The victim's traffic is redirected to malicious IPs.</p></div>
+  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2017, a major bank suffered a DNS spoofing incident that redirected customers to phishing sites. The breach led to significant financial loss and reputational damage.</p></div>
+  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Use DNSSEC to validate responses.</li>
+<li>Configure DNS to use secure, trusted servers.</li>
+<li>Enable DNS over HTTPS or TLS.</li>
+<li>Monitor DNS logs for anomalies.</li>
+<li>Educate users about phishing and suspicious sites.</li>
 </ul></div>
-  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>A single stolen cookie can grant full administrative access if the session is not properly scoped.</p></div>
+  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>A single DNS spoofing attack can affect millions of users across a network.</p></div>
   <a href="index.html" class="back-btn">← Back to Portfolio</a>
 </div>
 <footer><span style="color:var(--green)">root@shivaraj:~$</span> Daily Cyber Awareness · shivarajp24.github.io</footer>
