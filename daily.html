@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>ARP Poisoning | Cyber Awareness</title>
+<title>Port Scanning | Cyber Awareness</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#060a06;--panel:#0f180f;--border:#1a2e1a;--green:#00ff41;--green-mute:#00601a;--cyan:#00e5ff;--text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;--font-mono:'Share Tech Mono',monospace;--font-body:'Inter',sans-serif;--font-head:'Orbitron',monospace}
@@ -50,24 +50,24 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2r
 <div class="hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <span class="badge" style="color:var(--green)">📅 September 26, 2026</span>
+    <span class="badge" style="color:var(--green)">📅 September 27, 2026</span>
     <span class="badge" style="color:#ff6b00;background:rgba(0,0,0,0.3);border-color:#ff6b0044;margin-left:0.5rem">⚠️ HIGH</span>
     <div class="topic-label">// DAILY CYBER AWARENESS</div>
-    <h1>Prevent ARP Poisoning Attacks</h1>
-    <p class="intro">ARP poisoning exploits the Address Resolution Protocol to redirect traffic. It can compromise network integrity and confidentiality.</p>
+    <h1>Detecting Port Scans Early</h1>
+    <p class="intro">Port scanning is a common reconnaissance technique used by attackers to discover open services on a network. By probing ports, they can identify potential vulnerabilities before launching an attack.</p>
   </div>
 </div>
 <div class="container">
-  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>ARP poisoning, also known as ARP spoofing, involves sending forged ARP messages to a local network. This tricks devices into associating the attacker's MAC address with a legitimate IP address.</p></div>
-  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>The attacker broadcasts fake ARP replies to the target, claiming the attacker's MAC is the gateway's MAC. Once the target updates its ARP cache, traffic is routed through the attacker. The attacker can then intercept, modify, or drop packets.</p></div>
-  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2017, a university network suffered a man-in-the-middle attack due to ARP poisoning, exposing student data. The breach was discovered after unusual traffic patterns were logged.</p></div>
-  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Use static ARP entries on critical devices</li>
-<li>Enable ARP inspection on switches</li>
-<li>Deploy VPNs to encrypt traffic</li>
-<li>Regularly monitor ARP tables for changes</li>
-<li>Implement network segmentation to limit broadcast domains</li>
+  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>Port scanning involves sending packets to a range of ports on a target system to see which ones respond. The responses reveal which services are running and can be exploited.</p></div>
+  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>An attacker sends SYN packets to a list of ports, expecting SYN-ACK responses from open ports or RST from closed ones. The pattern of replies indicates the port state. This information helps the attacker map the target's attack surface.</p></div>
+  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>A recent breach of a financial institution began with a port scan that identified an exposed SSH service on port 22. The attackers then used brute‑force credentials to gain unauthorized access.</p></div>
+  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Use a firewall to block unsolicited inbound traffic</li>
+<li>Enable intrusion detection systems to alert on scan patterns</li>
+<li>Regularly update and patch services to close known vulnerabilities</li>
+<li>Employ port knocking or dynamic port assignment to hide services</li>
+<li>Monitor logs for repeated connection attempts and block offending IPs</li>
 </ul></div>
-  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>ARP is stateless, so it lacks authentication, making it inherently vulnerable to spoofing.</p></div>
+  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>Port scanning can be performed from a single IP address, making it difficult to trace the source of the reconnaissance.</p></div>
   <a href="index.html" class="back-btn">← Back to Portfolio</a>
 </div>
 <footer><span style="color:var(--green)">root@shivaraj:~$</span> Daily Cyber Awareness · shivarajp24.github.io</footer>
