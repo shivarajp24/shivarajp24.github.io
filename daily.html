@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Nmap Tutorial | Cyber Awareness</title>
+<title>Wireshark Basics | Cyber Awareness</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#060a06;--panel:#0f180f;--border:#1a2e1a;--green:#00ff41;--green-mute:#00601a;--cyan:#00e5ff;--text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;--font-mono:'Share Tech Mono',monospace;--font-body:'Inter',sans-serif;--font-head:'Orbitron',monospace}
@@ -50,24 +50,24 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2r
 <div class="hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <span class="badge" style="color:var(--green)">📅 October 16, 2026</span>
+    <span class="badge" style="color:var(--green)">📅 October 17, 2026</span>
     <span class="badge" style="color:#ff6b00;background:rgba(0,0,0,0.3);border-color:#ff6b0044;margin-left:0.5rem">⚠️ HIGH</span>
     <div class="topic-label">// DAILY CYBER AWARENESS</div>
-    <h1>Discover Network Scanning with Nmap</h1>
-    <p class="intro">Nmap is a powerful network scanning tool used by security professionals to map networks and identify open ports. It helps detect vulnerabilities before attackers can exploit them.</p>
+    <h1>Capture Network Traffic Easily</h1>
+    <p class="intro">Wireshark is a powerful network protocol analyzer. It lets you inspect data moving across your network in real time.</p>
   </div>
 </div>
 <div class="container">
-  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>Nmap stands for Network Mapper and scans IP addresses to reveal active hosts and services. It uses various scanning techniques to gather detailed information about a target network.</p></div>
-  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>Nmap sends packets to target hosts and analyzes responses to determine open ports. It can perform TCP SYN scans, UDP scans, and version detection to identify running services. The results are displayed in a concise report for further analysis.</p></div>
-  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>A penetration tester uses Nmap to map a corporate network before launching a simulated attack. The scan reveals exposed web servers that can be targeted for exploitation.</p></div>
-  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Configure firewalls to block unsolicited inbound traffic</li>
-<li>Use intrusion detection systems to flag port scans</li>
-<li>Keep network devices patched and updated</li>
-<li>Implement network segmentation to limit scan impact</li>
-<li>Monitor logs for repeated scanning activity</li>
+  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>Wireshark captures packets from a network interface and displays them in a readable format. It supports hundreds of protocols, making it essential for troubleshooting and security analysis.</p></div>
+  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>When you start a capture, Wireshark reads raw packets from the network interface. It parses each packet according to protocol specifications and displays the decoded fields. Filters can be applied to focus on traffic of interest.</p></div>
+  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>An analyst uses Wireshark to investigate a sudden spike in outbound traffic. By inspecting packet payloads, they discover a data exfiltration attempt.</p></div>
+  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Use encrypted protocols whenever possible</li>
+<li>Limit who can capture traffic on production networks</li>
+<li>Apply capture filters to reduce noise</li>
+<li>Regularly update Wireshark to patch vulnerabilities</li>
+<li>Store captures securely and restrict access</li>
 </ul></div>
-  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>Nmap can be used to discover hidden devices on a network that are not listed in the DHCP lease table.</p></div>
+  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>Wireshark can decode over 1,000 protocols, including many proprietary ones.</p></div>
   <a href="index.html" class="back-btn">← Back to Portfolio</a>
 </div>
 <footer><span style="color:var(--green)">root@shivaraj:~$</span> Daily Cyber Awareness · shivarajp24.github.io</footer>
