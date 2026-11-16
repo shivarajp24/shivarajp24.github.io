@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>XSS Attacks | Cyber Awareness</title>
+<title>CSRF Attacks | Cyber Awareness</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#060a06;--panel:#0f180f;--border:#1a2e1a;--green:#00ff41;--green-mute:#00601a;--cyan:#00e5ff;--text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;--font-mono:'Share Tech Mono',monospace;--font-body:'Inter',sans-serif;--font-head:'Orbitron',monospace}
@@ -50,24 +50,24 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2r
 <div class="hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <span class="badge" style="color:var(--green)">📅 November 15, 2026</span>
+    <span class="badge" style="color:var(--green)">📅 November 16, 2026</span>
     <span class="badge" style="color:#ff6b00;background:rgba(0,0,0,0.3);border-color:#ff6b0044;margin-left:0.5rem">⚠️ HIGH</span>
     <div class="topic-label">// DAILY CYBER AWARENESS</div>
-    <h1>Prevent XSS: Protect Your Web Apps</h1>
-    <p class="intro">Cross‑Site Scripting (XSS) allows attackers to inject malicious scripts into trusted websites. This can steal user data or hijack sessions.</p>
+    <h1>Preventing CSRF: A Quick Guide</h1>
+    <p class="intro">Cross-Site Request Forgery (CSRF) tricks users into performing unwanted actions. It exploits the trust a site has in a user's browser.</p>
   </div>
 </div>
 <div class="container">
-  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>XSS is a vulnerability where untrusted input is rendered as executable code in a browser. It exploits the trust between a user and a website.</p></div>
-  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>An attacker injects JavaScript into a page via input fields, URLs, or comments. When a victim visits the page, the script runs in their browser context. The attacker can then exfiltrate cookies, modify page content, or perform actions on behalf of the user.</p></div>
-  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2018, a major e‑commerce site suffered a XSS attack that redirected users to phishing pages. The breach exposed thousands of customer credentials.</p></div>
-  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Validate and sanitize all user input.</li>
-<li>Use Content Security Policy headers.</li>
-<li>Encode output based on context.</li>
-<li>Employ HTTPOnly and Secure flags on cookies.</li>
-<li>Regularly audit and test for XSS vulnerabilities.</li>
+  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>CSRF is a type of attack that forces an authenticated user to submit a request they did not intend. It leverages the fact that browsers automatically send cookies with each request.</p></div>
+  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>An attacker crafts a malicious link or image that points to a target site. When the victim clicks or loads it, the browser sends the request with the victim's session cookie. The target site processes the request as if it came from the victim.</p></div>
+  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2010, a CSRF attack on a popular banking site allowed attackers to transfer funds without the user's knowledge. The vulnerability was due to missing anti-CSRF tokens in form submissions.</p></div>
+  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Use anti-CSRF tokens</li>
+<li>Implement SameSite cookie attribute</li>
+<li>Validate Referer header</li>
+<li>Require POST for state-changing actions</li>
+<li>Employ double-submit cookie pattern</li>
 </ul></div>
-  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>A single XSS vulnerability can compromise every user of a site, not just the attacker.</p></div>
+  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>A single CSRF vulnerability can be exploited by sending a forged request from a malicious email attachment.</p></div>
   <a href="index.html" class="back-btn">← Back to Portfolio</a>
 </div>
 <footer><span style="color:var(--green)">root@shivaraj:~$</span> Daily Cyber Awareness · shivarajp24.github.io</footer>
