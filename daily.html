@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CSRF Attacks | Cyber Awareness</title>
+<title>Brute Force Attacks | Cyber Awareness</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#060a06;--panel:#0f180f;--border:#1a2e1a;--green:#00ff41;--green-mute:#00601a;--cyan:#00e5ff;--text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;--font-mono:'Share Tech Mono',monospace;--font-body:'Inter',sans-serif;--font-head:'Orbitron',monospace}
@@ -50,24 +50,24 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2r
 <div class="hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <span class="badge" style="color:var(--green)">📅 November 16, 2026</span>
+    <span class="badge" style="color:var(--green)">📅 November 17, 2026</span>
     <span class="badge" style="color:#ff6b00;background:rgba(0,0,0,0.3);border-color:#ff6b0044;margin-left:0.5rem">⚠️ HIGH</span>
     <div class="topic-label">// DAILY CYBER AWARENESS</div>
-    <h1>Preventing CSRF: A Quick Guide</h1>
-    <p class="intro">Cross-Site Request Forgery (CSRF) tricks users into performing unwanted actions. It exploits the trust a site has in a user's browser.</p>
+    <h1>Stop Password Guessing Fast</h1>
+    <p class="intro">Brute force attacks attempt to guess passwords by trying many combinations. They can compromise accounts quickly if passwords are weak.</p>
   </div>
 </div>
 <div class="container">
-  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>CSRF is a type of attack that forces an authenticated user to submit a request they did not intend. It leverages the fact that browsers automatically send cookies with each request.</p></div>
-  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>An attacker crafts a malicious link or image that points to a target site. When the victim clicks or loads it, the browser sends the request with the victim's session cookie. The target site processes the request as if it came from the victim.</p></div>
-  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2010, a CSRF attack on a popular banking site allowed attackers to transfer funds without the user's knowledge. The vulnerability was due to missing anti-CSRF tokens in form submissions.</p></div>
-  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Use anti-CSRF tokens</li>
-<li>Implement SameSite cookie attribute</li>
-<li>Validate Referer header</li>
-<li>Require POST for state-changing actions</li>
-<li>Employ double-submit cookie pattern</li>
+  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>A brute force attack systematically tries every possible password until the correct one is found. It relies on computational power and often exploits weak or default credentials.</p></div>
+  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>The attacker uses automated tools to generate password candidates. Each candidate is submitted to the target system for verification. If the system does not enforce rate limiting, the correct password may be discovered after many attempts.</p></div>
+  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2019, a major e-commerce platform suffered a breach when attackers used brute force to compromise admin accounts. The breach exposed sensitive customer data and led to a costly investigation.</p></div>
+  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Use strong, unique passwords</li>
+<li>Enable account lockout after failed attempts</li>
+<li>Implement multi-factor authentication</li>
+<li>Apply rate limiting on login endpoints</li>
+<li>Regularly monitor login logs for suspicious activity</li>
 </ul></div>
-  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>A single CSRF vulnerability can be exploited by sending a forged request from a malicious email attachment.</p></div>
+  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>A single modern GPU can test over 100 million password guesses per second.</p></div>
   <a href="index.html" class="back-btn">← Back to Portfolio</a>
 </div>
 <footer><span style="color:var(--green)">root@shivaraj:~$</span> Daily Cyber Awareness · shivarajp24.github.io</footer>
