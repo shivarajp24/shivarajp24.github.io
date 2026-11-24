@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Public WiFi Risks | Cyber Awareness</title>
+<title>Cookie Hijacking | Cyber Awareness</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#060a06;--panel:#0f180f;--border:#1a2e1a;--green:#00ff41;--green-mute:#00601a;--cyan:#00e5ff;--text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;--font-mono:'Share Tech Mono',monospace;--font-body:'Inter',sans-serif;--font-head:'Orbitron',monospace}
@@ -50,24 +50,24 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2r
 <div class="hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <span class="badge" style="color:var(--green)">📅 November 23, 2026</span>
+    <span class="badge" style="color:var(--green)">📅 November 24, 2026</span>
     <span class="badge" style="color:#ff6b00;background:rgba(0,0,0,0.3);border-color:#ff6b0044;margin-left:0.5rem">⚠️ HIGH</span>
     <div class="topic-label">// DAILY CYBER AWARENESS</div>
-    <h1>Beware Public WiFi Threats</h1>
-    <p class="intro">Using public WiFi can expose your data to attackers. It's essential to understand the risks before connecting.</p>
+    <h1>Steal Cookies, Steal Sessions</h1>
+    <p class="intro">Cookie hijacking is a technique used by attackers to steal session cookies from users. This allows them to impersonate the user and gain unauthorized access.</p>
   </div>
 </div>
 <div class="container">
-  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>Public WiFi networks are shared connections available in cafés, airports, and hotels. They often lack encryption, making data transmission vulnerable.</p></div>
-  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>When you connect, your device sends data over the same channel as others. Attackers can intercept packets or inject malicious traffic. Without proper encryption, sensitive information like passwords can be captured.</p></div>
-  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2022, a major airline's public WiFi was compromised, allowing attackers to harvest login credentials. Users who accessed their bank accounts over that network fell victim to phishing.</p></div>
-  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Use a VPN</li>
-<li>Enable HTTPS Everywhere</li>
-<li>Turn off file sharing</li>
-<li>Verify network name</li>
-<li>Keep software updated</li>
+  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>It involves capturing the cookie data that browsers store for authenticated sessions. Attackers then use these cookies to hijack the user's session.</p></div>
+  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>First, the attacker injects malicious JavaScript into a trusted site or uses a cross-site scripting (XSS) vulnerability. The script reads the cookie value and sends it to the attacker's server. With the cookie, the attacker can log in as the victim without needing credentials.</p></div>
+  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2018, a popular e-commerce site was compromised, and attackers stole session cookies via a malicious ad network. Users were logged out and had their accounts accessed by attackers.</p></div>
+  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Use HttpOnly and Secure flags on cookies</li>
+<li>Implement Content Security Policy (CSP)</li>
+<li>Regularly rotate session tokens</li>
+<li>Employ same-site cookie attribute</li>
+<li>Monitor for unusual session activity</li>
 </ul></div>
-  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>Over 70% of WiFi hotspots are unsecured, exposing millions of users daily.</p></div>
+  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>A single stolen cookie can grant full access to a user's account for up to 24 hours without detection.</p></div>
   <a href="index.html" class="back-btn">← Back to Portfolio</a>
 </div>
 <footer><span style="color:var(--green)">root@shivaraj:~$</span> Daily Cyber Awareness · shivarajp24.github.io</footer>
