@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>DNS Spoofing | Cyber Awareness</title>
+<title>ARP Poisoning | Cyber Awareness</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#060a06;--panel:#0f180f;--border:#1a2e1a;--green:#00ff41;--green-mute:#00601a;--cyan:#00e5ff;--text:#c8e6c9;--text-dim:#6a9b6a;--text-muted:#3a5c3a;--white:#f0fff0;--font-mono:'Share Tech Mono',monospace;--font-body:'Inter',sans-serif;--font-head:'Orbitron',monospace}
@@ -50,24 +50,24 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2r
 <div class="hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <span class="badge" style="color:var(--green)">📅 November 25, 2026</span>
+    <span class="badge" style="color:var(--green)">📅 November 26, 2026</span>
     <span class="badge" style="color:#ff6b00;background:rgba(0,0,0,0.3);border-color:#ff6b0044;margin-left:0.5rem">⚠️ HIGH</span>
     <div class="topic-label">// DAILY CYBER AWARENESS</div>
-    <h1>Fake DNS, Real Danger</h1>
-    <p class="intro">DNS spoofing tricks users into visiting malicious sites. It hijacks domain resolution to redirect traffic.</p>
+    <h1>ARP Poisoning: Silent Network Attack</h1>
+    <p class="intro">ARP poisoning exploits the Address Resolution Protocol to redirect traffic. It can compromise data confidentiality and integrity on local networks.</p>
   </div>
 </div>
 <div class="container">
-  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>DNS spoofing is an attack that manipulates DNS responses to point a domain to a malicious IP. Attackers alter the mapping between domain names and IP addresses.</p></div>
-  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>The attacker intercepts DNS queries or injects forged responses. They replace the legitimate IP with a malicious one. The victim's browser then connects to the attacker-controlled server.</p></div>
-  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2013, a major DNS spoofing incident redirected users of a popular e-commerce site to phishing pages. The attack caused significant financial loss and reputational damage.</p></div>
-  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Use DNSSEC to validate responses</li>
-<li>Configure DNS to use secure, trusted servers</li>
-<li>Enable multi-factor authentication for admin access</li>
-<li>Regularly monitor DNS logs for anomalies</li>
-<li>Educate users about phishing and safe browsing</li>
+  <div class="card"><div class="card-title">// WHAT IS IT?</div><p>ARP poisoning, also known as ARP spoofing, involves sending forged ARP messages to a network. This tricks devices into associating the attacker's MAC address with another IP, such as the gateway.</p></div>
+  <div class="card"><div class="card-title">// HOW IT WORKS</div><p>An attacker broadcasts malicious ARP replies to all hosts, claiming the attacker's MAC as the gateway. Devices update their ARP tables, sending traffic through the attacker. The attacker can then intercept, modify, or drop packets before forwarding them.</p></div>
+  <div class="card"><div class="card-title">// REAL WORLD EXAMPLE</div><p>In 2018, a university network was hijacked, allowing attackers to eavesdrop on student emails. The breach was discovered after unusual traffic patterns were logged.</p></div>
+  <div class="card"><div class="card-title">// PROTECTION TIPS</div><ul class="tips-list"><li>Use static ARP entries on critical devices.</li>
+<li>Enable dynamic ARP inspection on switches.</li>
+<li>Regularly monitor ARP table changes.</li>
+<li>Employ VPNs to encrypt traffic.</li>
+<li>Educate staff about ARP spoofing risks.</li>
 </ul></div>
-  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>DNS spoofing can be executed with just a few lines of code on a compromised router.</p></div>
+  <div class="fact-card"><div class="card-title">// DID YOU KNOW?</div><p>ARP is stateless, so devices accept unsolicited ARP replies without verification.</p></div>
   <a href="index.html" class="back-btn">← Back to Portfolio</a>
 </div>
 <footer><span style="color:var(--green)">root@shivaraj:~$</span> Daily Cyber Awareness · shivarajp24.github.io</footer>
